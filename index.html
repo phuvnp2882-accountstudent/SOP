@@ -38,7 +38,8 @@
             Search: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>,
             Refresh: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>,
             Upload: () => <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>,
-            Download: () => <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Download: () => <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>,
+            ClipboardList: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
         };
 
         // ===== BẢNG THAM CHIẾU BT2026 - NHÓM 4401-4407 =====
@@ -52,12 +53,10 @@
             "44013900": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, đã đóng thành khúc/bánh/viên - Loại khác", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
             "44014100": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, chưa đóng thành khối - Mùn cưa", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
             "44014900": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, chưa đóng thành khối - Loại khác", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
-
             "44021000": { desc: "Than củi (kể cả than đốt từ vỏ quả hoặc hạt) - Của tre", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
             "44022010": { desc: "Than củi - Của vỏ quả hoặc hạt - Than gáo dừa", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
             "44022090": { desc: "Than củi - Của vỏ quả hoặc hạt - Loại khác", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
             "44029000": { desc: "Than củi - Loại khác", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
-
             "44031110": { desc: "Gỗ cây dạng thô, đã xử lý bằng sơn/chất bảo quản - Từ cây lá kim - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44031190": { desc: "Gỗ cây dạng thô, đã xử lý bằng sơn/chất bảo quản - Từ cây lá kim - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44031210": { desc: "Gỗ cây dạng thô, đã xử lý bằng sơn/chất bảo quản - Từ cây không thuộc loài lá kim - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
@@ -96,19 +95,15 @@
             "44039890": { desc: "Gỗ cây dạng thô - Gỗ bạch đàn (Eucalyptus spp.) - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44039910": { desc: "Gỗ cây dạng thô - Loại khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44039990": { desc: "Gỗ cây dạng thô - Loại khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
-
             "44041000": { desc: "Gỗ đai thùng; cọc chẻ; sào, cột, cọc bằng gỗ...; nan gỗ (chipwood) - Từ cây lá kim", unit: "kg/m3", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
             "44042010": { desc: "Gỗ đai thùng... - Từ cây không thuộc loài lá kim - Nan gỗ (Chipwood)", unit: "kg/m3", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
             "44042090": { desc: "Gỗ đai thùng... - Từ cây không thuộc loài lá kim - Loại khác", unit: "kg/m3", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
-
             "44050010": { desc: "Sợi gỗ; bột gỗ - Sợi gỗ", unit: "kg", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44050020": { desc: "Sợi gỗ; bột gỗ - Bột gỗ", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
-
             "44061100": { desc: "Tà vẹt đường sắt hoặc đường xe điện (thanh ngang) bằng gỗ - Chưa ngâm tẩm - Từ cây lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44061200": { desc: "Tà vẹt đường sắt... - Chưa ngâm tẩm - Từ cây không thuộc loài lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44069100": { desc: "Tà vẹt đường sắt... - Loại khác - Từ cây lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44069200": { desc: "Tà vẹt đường sắt... - Loại khác - Từ cây không thuộc loài lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
-
             "44071110": { desc: "Gỗ đã cưa/xẻ dọc, lạng/bóc... dày >6mm - Từ cây thông (Pinus spp.) - Đã xẻ dọc, chưa gia công thêm", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44071190": { desc: "Gỗ đã cưa/xẻ dọc... - Từ cây thông (Pinus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
             "44071200": { desc: "Gỗ đã cưa/xẻ dọc... - Từ cây linh sam (Abies spp.) và vân sam (Picea spp.)", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
@@ -252,13 +247,14 @@
 
         const EMPTY_FORM = {
             decNo: '', sku: '', itemName: '', hsDeclared: '',
-            importTax: '', vatRate: 10, unitPrice: '', qty: '',
-            overrideApproved: false, overrideReason: '', girRule: ''
+            importTax: '', vatRate: 10, unitPrice: '', qty: ''
         };
 
         const normalizeHS = (code) => (code || '').toString().replace(/[.\s]/g, '').trim();
         const formatHS = (code8) => code8.replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3");
         const normalizeVN = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+        const nowStr = () => new Date().toISOString().replace('T', ' ').substring(0, 16);
+        const showVal = (v, fallback = '—') => (v === '' || v === null || v === undefined) ? fallback : v;
 
         const testPattern = (pattern, text) => {
             if (!pattern) return true;
@@ -279,10 +275,13 @@
             const [newKeywordInput, setNewKeywordInput] = React.useState('');
             const [formData, setFormData] = React.useState({ ...EMPTY_FORM });
             const [nameConfirmed, setNameConfirmed] = React.useState(false);
-            const [pendingRequest, setPendingRequest] = React.useState(null);
+            const [overrideRequests, setOverrideRequests] = React.useState([]);
             const [declarations, setDeclarations] = React.useState([]);
             const [overrideModalOpen, setOverrideModalOpen] = React.useState(false);
             const [transmitModalOpen, setTransmitModalOpen] = React.useState(false);
+            const [transmitOverrideId, setTransmitOverrideId] = React.useState(null);
+            const [viewingDeclaration, setViewingDeclaration] = React.useState(null);
+            const [viewingOverride, setViewingOverride] = React.useState(null);
             const [toast, setToast] = React.useState(null);
             const toastTimerRef = React.useRef(null);
 
@@ -362,7 +361,6 @@
                     showToast("Vui lòng xác nhận tên hàng trước khi nhập mã HS", "error");
                     return;
                 }
-                setPendingRequest(null);
                 const key = normalizeHS(newHS);
                 const ref = BT2026_REFERENCE[key];
                 if (ref) {
@@ -372,31 +370,27 @@
                     setFormData(prev => ({
                         ...prev,
                         hsDeclared: newHS,
-                        importTax: ref.mfn,
-                        vatRate: String(newVat),
-                        overrideApproved: false
+                        importTax: String(ref.mfn),
+                        vatRate: String(newVat)
                     }));
                 } else {
                     setFormData(prev => ({
                         ...prev,
                         hsDeclared: newHS,
                         importTax: '',
-                        vatRate: '8',
-                        overrideApproved: false
+                        vatRate: '8'
                     }));
                 }
             };
 
             const handleItemNameChange = (newName) => {
-                setPendingRequest(null);
                 const wasConfirmed = nameConfirmed;
                 setFormData(prev => ({
                     ...prev,
                     itemName: newName,
                     hsDeclared: '',
                     importTax: '',
-                    vatRate: 8,
-                    overrideApproved: false
+                    vatRate: 8
                 }));
                 if (wasConfirmed) {
                     setNameConfirmed(false);
@@ -415,8 +409,7 @@
 
             const handleUnlockName = () => {
                 setNameConfirmed(false);
-                setPendingRequest(null);
-                setFormData(prev => ({ ...prev, hsDeclared: '', importTax: '', vatRate: 8, overrideApproved: false }));
+                setFormData(prev => ({ ...prev, hsDeclared: '', importTax: '', vatRate: 8 }));
                 showToast("Đã mở khóa tên hàng — sửa xong nhớ xác nhận lại", "info");
             };
 
@@ -534,7 +527,6 @@
             }, [formData, hsLookup, nameHsSemantic, sensitiveKeywords, importDutyAmount, vatAmount, currentTaxOptions, currentVatOptions, nameConfirmed]);
 
             const currentInspection = inspectRules();
-            const isOverrideApproved = formData.overrideApproved === true;
 
             const hasRequiredFields =
                 formData.decNo.trim() &&
@@ -545,78 +537,86 @@
                 formData.unitPrice !== '' &&
                 formData.qty !== '';
 
-            const canTransmit = hasRequiredFields && (isOverrideApproved || !currentInspection.isBlocked);
+            const canTransmit = hasRequiredFields && !currentInspection.isBlocked;
+            const finalStatus = currentInspection.isBlocked ? "BLOCKED" : "PASSED";
 
-            const finalStatus = isOverrideApproved ? "APPROVED_OVERRIDE" : (currentInspection.isBlocked ? "BLOCKED" : "PASSED");
+            const pendingOverrideCount = overrideRequests.filter(r => r.status === 'PENDING').length;
+            const approvedOverrideCount = overrideRequests.filter(r => r.status === 'APPROVED').length;
 
-            const handleRequestOverride = (overrideForm) => {
+            const handleSubmitOverrideRequest = (overrideForm) => {
                 setOverrideModalOpen(false);
-                if (userRole === 'MANAGER') {
-                    setFormData(prev => ({
-                        ...prev,
-                        overrideApproved: true,
-                        overrideReason: overrideForm.reason,
-                        girRule: overrideForm.girRule
-                    }));
-                    setPendingRequest(null);
-                    showToast("Trưởng phòng đã phê duyệt — nút Truyền đã mở", "success");
-                } else {
-                    setPendingRequest({
-                        reason: overrideForm.reason,
-                        girRule: overrideForm.girRule,
-                        fileName: overrideForm.fileName,
-                        fileMeta: overrideForm.fileMeta,
-                        fileBlob: overrideForm.fileBlob,
-                        requestedAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                        requestedBy: 'Chuyên viên XNK'
-                    });
-                    showToast("Đã gửi phiếu yêu cầu — đang chờ Trưởng phòng phê duyệt", "info");
-                }
-            };
-
-            const approvePending = () => {
-                if (!pendingRequest) return;
-                setFormData(prev => ({
-                    ...prev,
-                    overrideApproved: true,
-                    overrideReason: pendingRequest.reason,
-                    girRule: pendingRequest.girRule
-                }));
-                setPendingRequest(null);
-                showToast("Đã phê duyệt — nút Truyền đã mở", "success");
-            };
-
-            const rejectPending = () => {
-                setPendingRequest(null);
-                showToast("Đã từ chối — Staff cần sửa lại khai báo", "error");
-            };
-
-            const confirmTransmit = () => {
-                setTransmitModalOpen(false);
-                const newDec = {
-                    id: `DEC-${Math.floor(1000 + Math.random() * 9000)}`,
-                    decNo: formData.decNo, sku: formData.sku, itemName: formData.itemName,
-                    hsDeclared: formData.hsDeclared, status: finalStatus,
-                    createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                    approvedBy: isOverrideApproved ? "Manager Approved" : "System Auto Passed"
+                const snapshot = {
+                    decNo: formData.decNo,
+                    sku: formData.sku,
+                    itemName: formData.itemName,
+                    hsDeclared: formData.hsDeclared,
+                    importTax: formData.importTax,
+                    vatRate: formData.vatRate,
+                    unitPrice: formData.unitPrice,
+                    qty: formData.qty,
+                    cifValue, importDutyAmount, vatAmount, totalTaxAmount,
+                    hsDescription: hsLookup.ref ? hsLookup.ref.desc : '',
+                    unit: hsLookup.ref ? hsLookup.ref.unit : '',
+                    mfn: hsLookup.ref ? hsLookup.ref.mfn : null,
+                    normal: hsLookup.ref ? hsLookup.ref.normal : null,
+                    blockedLayers: currentInspection.layers
+                        .filter(l => l.status === 'FAIL')
+                        .map(l => ({ name: l.name, details: [...l.details] }))
                 };
-                setDeclarations(prev => [newDec, ...prev]);
-                showToast(`Tờ khai ${formData.decNo} đã được truyền thành công tới VNACCS!`, "success");
-            };
-
-            const handleResetForm = () => {
+                const newOverride = {
+                    id: `OVR-${Math.floor(1000 + Math.random() * 9000)}`,
+                    status: 'PENDING',
+                    ...snapshot,
+                    reason: overrideForm.reason,
+                    girRule: overrideForm.girRule,
+                    fileName: overrideForm.fileName,
+                    fileMeta: overrideForm.fileMeta,
+                    fileBlob: overrideForm.fileBlob,
+                    requestedAt: nowStr(),
+                    requestedBy: 'Chuyên viên XNK',
+                    approvedAt: null, approvedBy: null,
+                    rejectedAt: null, rejectedBy: null,
+                    transmittedAt: null, transmittedBy: null, declarationId: null
+                };
+                setOverrideRequests(prev => [newOverride, ...prev]);
                 setFormData({ ...EMPTY_FORM });
                 setNameConfirmed(false);
-                setPendingRequest(null);
-                showToast("Đã xoá toàn bộ form để tạo tờ khai mới", "info");
+                setActiveTab('overrides');
+                showToast(`Đã gửi phiếu ${newOverride.id} — đang chờ Trưởng phòng phê duyệt`, "success");
             };
 
-            const handleDownloadFile = () => {
-                if (!pendingRequest || !pendingRequest.fileBlob) return;
-                const url = URL.createObjectURL(pendingRequest.fileBlob);
+            const handleApproveOverride = (id) => {
+                setOverrideRequests(prev => prev.map(r => r.id === id ? {
+                    ...r,
+                    status: 'APPROVED',
+                    approvedAt: nowStr(),
+                    approvedBy: 'Trưởng Phòng Logistics'
+                } : r));
+                showToast("Đã phê duyệt — Chuyên viên XNK có thể truyền tờ khai", "success");
+            };
+
+            const handleRejectOverride = (id) => {
+                setOverrideRequests(prev => prev.map(r => r.id === id ? {
+                    ...r,
+                    status: 'REJECTED',
+                    rejectedAt: nowStr(),
+                    rejectedBy: 'Trưởng Phòng Logistics'
+                } : r));
+                showToast("Đã từ chối phiếu yêu cầu", "error");
+            };
+
+            const handleOpenTransmitOverride = (id) => {
+                setTransmitOverrideId(id);
+                setTransmitModalOpen(true);
+                setViewingOverride(null);
+            };
+
+            const handleDownloadOverrideFile = (override) => {
+                if (!override || !override.fileBlob) return;
+                const url = URL.createObjectURL(override.fileBlob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = pendingRequest.fileName;
+                a.download = override.fileName;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -624,8 +624,126 @@
                 showToast("Đang tải file về máy...", "info");
             };
 
+            const confirmTransmit = () => {
+                setTransmitModalOpen(false);
+
+                if (transmitOverrideId) {
+                    const override = overrideRequests.find(r => r.id === transmitOverrideId);
+                    if (!override) { setTransmitOverrideId(null); return; }
+
+                    const newDec = {
+                        id: `DEC-${Math.floor(1000 + Math.random() * 9000)}`,
+                        decNo: override.decNo,
+                        sku: override.sku,
+                        itemName: override.itemName,
+                        hsDeclared: override.hsDeclared,
+                        status: 'APPROVED_OVERRIDE',
+                        createdAt: nowStr(),
+                        approvedBy: "Manager Approved",
+                        importTax: override.importTax,
+                        vatRate: override.vatRate,
+                        unitPrice: override.unitPrice,
+                        qty: override.qty,
+                        cifValue: override.cifValue,
+                        importDutyAmount: override.importDutyAmount,
+                        vatAmount: override.vatAmount,
+                        totalTaxAmount: override.totalTaxAmount,
+                        overrideReason: override.reason,
+                        girRule: override.girRule,
+                        hsDescription: override.hsDescription,
+                        unit: override.unit,
+                        mfn: override.mfn,
+                        normal: override.normal,
+                        transmittedBy: 'Chuyên viên XNK',
+                        overrideId: override.id
+                    };
+                    setDeclarations(prev => [newDec, ...prev]);
+                    setOverrideRequests(prev => prev.map(r => r.id === override.id ? {
+                        ...r,
+                        status: 'TRANSMITTED',
+                        transmittedAt: nowStr(),
+                        transmittedBy: 'Chuyên viên XNK',
+                        declarationId: newDec.id
+                    } : r));
+                    setTransmitOverrideId(null);
+                    showToast(`Tờ khai ${override.decNo} đã được truyền thành công tới VNACCS!`, "success");
+                    return;
+                }
+
+                const newDec = {
+                    id: `DEC-${Math.floor(1000 + Math.random() * 9000)}`,
+                    decNo: formData.decNo,
+                    sku: formData.sku,
+                    itemName: formData.itemName,
+                    hsDeclared: formData.hsDeclared,
+                    status: finalStatus,
+                    createdAt: nowStr(),
+                    approvedBy: "System Auto Passed",
+                    importTax: formData.importTax,
+                    vatRate: formData.vatRate,
+                    unitPrice: formData.unitPrice,
+                    qty: formData.qty,
+                    cifValue,
+                    importDutyAmount,
+                    vatAmount,
+                    totalTaxAmount,
+                    overrideReason: '',
+                    girRule: '',
+                    hsDescription: hsLookup.ref ? hsLookup.ref.desc : '',
+                    unit: hsLookup.ref ? hsLookup.ref.unit : '',
+                    mfn: hsLookup.ref ? hsLookup.ref.mfn : null,
+                    normal: hsLookup.ref ? hsLookup.ref.normal : null,
+                    transmittedBy: userRole === 'MANAGER' ? 'Trưởng Phòng Logistics' : 'Chuyên viên XNK'
+                };
+                setDeclarations(prev => [newDec, ...prev]);
+                setFormData({ ...EMPTY_FORM });
+                setNameConfirmed(false);
+                showToast(`Tờ khai ${newDec.decNo} đã được truyền thành công tới VNACCS!`, "success");
+            };
+
+            const handleLoadDeclarationToForm = (dec) => {
+                setFormData({
+                    decNo: dec.decNo,
+                    sku: dec.sku || '',
+                    itemName: dec.itemName,
+                    hsDeclared: dec.hsDeclared,
+                    importTax: dec.importTax !== undefined && dec.importTax !== null ? String(dec.importTax) : '',
+                    vatRate: dec.vatRate !== undefined && dec.vatRate !== null ? String(dec.vatRate) : 10,
+                    unitPrice: dec.unitPrice !== undefined && dec.unitPrice !== null ? String(dec.unitPrice) : '',
+                    qty: dec.qty !== undefined && dec.qty !== null ? String(dec.qty) : ''
+                });
+                setNameConfirmed(true);
+                setViewingDeclaration(null);
+                setActiveTab('create');
+                showToast(`Đã nạp tờ khai ${dec.decNo} vào form`, "info");
+            };
+
             const isTaxEnabled = hsLookup.status === 'FOUND' && nameConfirmed;
             const isFormLocked = !nameConfirmed;
+
+            const activeOverrideForTransmit = transmitOverrideId
+                ? overrideRequests.find(r => r.id === transmitOverrideId)
+                : null;
+
+            const transmitView = activeOverrideForTransmit ? {
+                decNo: activeOverrideForTransmit.decNo,
+                sku: activeOverrideForTransmit.sku,
+                hsDeclared: activeOverrideForTransmit.hsDeclared,
+                importTax: parseFloat(activeOverrideForTransmit.importTax) || 0,
+                vatRate: parseFloat(activeOverrideForTransmit.vatRate) || 0,
+                importDutyAmount: activeOverrideForTransmit.importDutyAmount,
+                vatAmount: activeOverrideForTransmit.vatAmount,
+                totalTaxAmount: activeOverrideForTransmit.totalTaxAmount
+            } : {
+                decNo: formData.decNo,
+                sku: formData.sku,
+                hsDeclared: formData.hsDeclared,
+                importTax: importTaxRate,
+                vatRate: vatRate,
+                importDutyAmount: importDutyAmount,
+                vatAmount: vatAmount,
+                totalTaxAmount: totalTaxAmount
+            };
 
             return (
                 <div className="min-h-screen flex flex-col bg-slate-100">
@@ -651,9 +769,19 @@
                             </div>
                         </div>
                         <div className="bg-slate-800/80 backdrop-blur border-t border-slate-700 px-4 sm:px-6 lg:px-8">
-                            <div className="max-w-7xl mx-auto flex space-x-1">
+                            <div className="max-w-7xl mx-auto flex space-x-1 flex-wrap">
                                 <button onClick={() => setActiveTab('create')}
                                     className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'create' ? 'border-blue-500 text-blue-400 bg-slate-900/50' : 'border-transparent text-slate-400 hover:text-slate-200'}`}><Icons.FileText /><span>Tạo & Kiểm Tra Tờ Khai</span></button>
+                                <button onClick={() => setActiveTab('overrides')}
+                                    className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors relative ${activeTab === 'overrides' ? 'border-blue-500 text-blue-400 bg-slate-900/50' : 'border-transparent text-slate-400 hover:text-slate-200'}`}>
+                                    <Icons.ClipboardList /><span>Phiếu Ngoại Lệ ({overrideRequests.length})</span>
+                                    {pendingOverrideCount > 0 && (
+                                        <span className="ml-1 px-1.5 py-0.5 bg-amber-500 text-white text-[10px] font-bold rounded-full">{pendingOverrideCount} chờ</span>
+                                    )}
+                                    {pendingOverrideCount === 0 && approvedOverrideCount > 0 && (
+                                        <span className="ml-1 px-1.5 py-0.5 bg-emerald-500 text-white text-[10px] font-bold rounded-full">{approvedOverrideCount} duyệt</span>
+                                    )}
+                                </button>
                                 <button onClick={() => setActiveTab('list')}
                                     className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'list' ? 'border-blue-500 text-blue-400 bg-slate-900/50' : 'border-transparent text-slate-400 hover:text-slate-200'}`}><Icons.Layers /><span>Danh Sách Tờ Khai ({declarations.length})</span></button>
                                 <button onClick={() => setActiveTab('config')}
@@ -681,27 +809,21 @@
                                                     <h2 className="text-base font-bold text-slate-900">Tờ Khai Hải Quan Nháp (Draft Declaration)</h2>
                                                     <p className="text-xs text-slate-500">Nhập dữ liệu hàng hóa để kiểm tra luồng cảnh báo tự động</p>
                                                 </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-mono font-semibold">Form VNACCS 2026 · BT2026</span>
-                                                    <button onClick={handleResetForm}
-                                                        className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition flex items-center space-x-1">
-                                                        <Icons.Refresh /><span>Xoá form</span>
-                                                    </button>
-                                                </div>
+                                                <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-mono font-semibold">Form VNACCS 2026 · BT2026</span>
                                             </div>
 
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div>
                                                     <label className="block text-xs font-bold text-slate-700 mb-1">Mã Tờ Khai (Tờ khai nháp)</label>
                                                     <input type="text" value={formData.decNo}
-                                                        onChange={(e) => setFormData({ ...formData, decNo: e.target.value, overrideApproved: false })}
+                                                        onChange={(e) => setFormData({ ...formData, decNo: e.target.value })}
                                                         placeholder="VD: 105988291020/1"
                                                         className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                                                 </div>
                                                 <div>
                                                     <label className="block text-xs font-bold text-slate-700 mb-1">Mã SKU Nội Bộ</label>
                                                     <input type="text" value={formData.sku}
-                                                        onChange={(e) => setFormData({ ...formData, sku: e.target.value, overrideApproved: false })}
+                                                        onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
                                                         placeholder="Nhập mã SKU tự do (VD: PINE-XE-25MM)"
                                                         className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg font-mono font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                                                 </div>
@@ -743,13 +865,6 @@
                                                         </button>
                                                     )}
                                                 </div>
-
-                                                {!nameConfirmed && formData.itemName.trim() && (
-                                                    <div className="mt-3 p-2 bg-amber-50 border border-amber-200 rounded-lg text-[11px] text-amber-800 flex items-start space-x-2">
-                                                        <Icons.AlertTriangle />
-                                                        <span>Tên hàng chưa được xác nhận — toàn bộ ô khai báo bên dưới đang bị khóa. Nhấn <b>"Xác nhận & Tra mã HS"</b> để mở khóa.</span>
-                                                    </div>
-                                                )}
                                             </div>
 
                                             <div className={`p-4 rounded-xl border-2 transition-all ${nameConfirmed ? 'bg-slate-50/30 border-slate-200' : 'bg-slate-100 border-slate-200 opacity-75'}`}>
@@ -803,7 +918,7 @@
                                                         {isTaxEnabled && (<span className="text-[9px] font-bold text-emerald-600 uppercase">BT2026</span>)}
                                                     </div>
                                                     <select disabled={!isTaxEnabled} value={isTaxEnabled ? formData.importTax : ''}
-                                                        onChange={(e) => setFormData({ ...formData, importTax: e.target.value, overrideApproved: false })}
+                                                        onChange={(e) => setFormData({ ...formData, importTax: e.target.value })}
                                                         className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:outline-none font-semibold ${isTaxEnabled ? 'border-amber-300 bg-amber-50/40 focus:ring-amber-500 text-amber-700 cursor-pointer' : 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'}`}>
                                                         <option value="">{isTaxEnabled ? '-- Chọn thuế suất --' : '-'}</option>
                                                         {isTaxEnabled && currentTaxOptions.map(r => {
@@ -814,7 +929,7 @@
                                                             if (isFta) label = 'FTA ưu đãi đặc biệt';
                                                             else if (isMfn) label = 'MFN — Ưu đãi';
                                                             else if (isNormal) label = 'Thông thường (TT)';
-                                                            return <option key={r} value={r}>{r}% {label ? `· ${label}` : ''}</option>;
+                                                            return <option key={r} value={String(r)}>{r}% {label ? `· ${label}` : ''}</option>;
                                                         })}
                                                     </select>
                                                     {isTaxEnabled && (
@@ -830,7 +945,7 @@
                                                     <select
                                                         disabled={!nameConfirmed}
                                                         value={nameConfirmed ? formData.vatRate : ''}
-                                                        onChange={(e) => setFormData({ ...formData, vatRate: e.target.value, overrideApproved: false })}
+                                                        onChange={(e) => setFormData({ ...formData, vatRate: e.target.value })}
                                                         className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-semibold ${
                                                             !nameConfirmed
                                                                 ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'
@@ -839,7 +954,7 @@
                                                     >
                                                         {!nameConfirmed && <option value="">-</option>}
                                                         {nameConfirmed && currentVatOptions.map(v => (
-                                                            <option key={v} value={v}>{v}% — {vatLabel(v)}</option>
+                                                            <option key={v} value={String(v)}>{v}% — {vatLabel(v)}</option>
                                                         ))}
                                                     </select>
                                                 </div>
@@ -848,7 +963,7 @@
                                                     <label className="block text-xs font-bold text-slate-700 mb-1">Đơn Giá (USD) <span className="text-rose-500">*</span></label>
                                                     <input type="number" min="0" step="0.01" value={formData.unitPrice}
                                                         disabled={isFormLocked}
-                                                        onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value, overrideApproved: false })}
+                                                        onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })}
                                                         placeholder={isFormLocked ? '-' : '0.00'}
                                                         className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:outline-none ${isFormLocked ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed' : 'border-slate-300 focus:ring-blue-500'}`} />
                                                 </div>
@@ -856,7 +971,7 @@
                                                     <label className="block text-xs font-bold text-slate-700 mb-1">Số Lượng <span className="text-rose-500">*</span></label>
                                                     <input type="number" min="0" step="1" value={formData.qty}
                                                         disabled={isFormLocked}
-                                                        onChange={(e) => setFormData({ ...formData, qty: e.target.value, overrideApproved: false })}
+                                                        onChange={(e) => setFormData({ ...formData, qty: e.target.value })}
                                                         placeholder={isFormLocked ? '-' : '0'}
                                                         className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:outline-none ${isFormLocked ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed' : 'border-slate-300 focus:ring-blue-500'}`} />
                                                 </div>
@@ -907,11 +1022,6 @@
                                                         <Icons.CheckCircle /><span>ĐẠT CHUẨN (PASSED)</span>
                                                     </span>
                                                 )}
-                                                {finalStatus === 'APPROVED_OVERRIDE' && (
-                                                    <span className="px-3 py-1 bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold text-xs rounded-full flex items-center space-x-1">
-                                                        <Icons.Unlock /><span>ĐÃ DUYỆT NGOẠI LỆ</span>
-                                                    </span>
-                                                )}
                                             </div>
 
                                             <div className="space-y-3">
@@ -935,111 +1045,38 @@
                                             </div>
 
                                             <div className="pt-2 border-t border-slate-100 space-y-3">
-                                                <button onClick={() => setTransmitModalOpen(true)} disabled={!canTransmit}
-                                                    className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 transition shadow-lg ${
-                                                        !canTransmit ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none border border-slate-300'
-                                                        : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-200'}`}>
-                                                    {!canTransmit ? <Icons.Lock /> : <Icons.Send />}
-                                                    <span>Truyền Tờ Khai Hải Quan (VNACCS)</span>
-                                                </button>
+                                                {canTransmit && (
+                                                    <button onClick={() => { setTransmitOverrideId(null); setTransmitModalOpen(true); }}
+                                                        className="w-full py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 transition shadow-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-200">
+                                                        <Icons.Send /><span>Truyền Tờ Khai Hải Quan (VNACCS)</span>
+                                                    </button>
+                                                )}
 
                                                 {!canTransmit && (
-                                                    <p className="text-[11px] text-rose-600 font-medium text-center">
-                                                        ⚠️ Nút truyền bị KHÓA. Vui lòng nhập đủ các trường bắt buộc và xử lý hết cảnh báo vi phạm.
-                                                    </p>
+                                                    <div className="space-y-2">
+                                                        <div className="w-full py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300">
+                                                            <Icons.Lock /><span>Truyền Tờ Khai Hải Quan (VNACCS)</span>
+                                                        </div>
+                                                        <p className="text-[11px] text-rose-600 font-medium text-center">
+                                                            ⚠️ Nút truyền bị KHÓA do vi phạm Rule Engine. Vui lòng xử lý hết cảnh báo hoặc tạo Phiếu Yêu Cầu Ngoại Lệ.
+                                                        </p>
+                                                    </div>
                                                 )}
 
-                                                {canTransmit && finalStatus === 'BLOCKED' && (
-                                                    <p className="text-[11px] text-indigo-600 font-medium text-center">✓ Đã có phê duyệt ngoại lệ — cho phép truyền.</p>
-                                                )}
-
-                                                {finalStatus === 'BLOCKED' && !isOverrideApproved && (
+                                                {finalStatus === 'BLOCKED' && (
                                                     <div className="pt-2 flex flex-col gap-2">
-                                                        {userRole === 'STAFF' && !pendingRequest && (
+                                                        {userRole === 'STAFF' && (
                                                             <button onClick={() => setOverrideModalOpen(true)}
                                                                 className="w-full py-2.5 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl font-semibold text-xs transition flex items-center justify-center space-x-1">
                                                                 <Icons.FileText /><span>Tạo Phiếu Yêu Cầu Mở Khóa Ngoại Lệ</span>
                                                             </button>
                                                         )}
-
-                                                        {userRole === 'MANAGER' && !pendingRequest && (
-                                                            <button onClick={() => setOverrideModalOpen(true)}
-                                                                className="w-full py-2.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-xs transition flex items-center justify-center space-x-1 shadow">
-                                                                <Icons.Unlock /><span>Trưởng Phòng: Phê Duyệt Mở Khóa Trực Tiếp</span>
-                                                            </button>
-                                                        )}
-
-                                                        {pendingRequest && (
-                                                            <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-2">
-                                                                <p className="font-bold flex items-center space-x-1">
-                                                                    <Icons.AlertTriangle /><span>⏳ Đang chờ Trưởng phòng phê duyệt</span>
-                                                                </p>
-                                                                <p className="text-[11px]">Gửi lúc: <span className="font-mono">{pendingRequest.requestedAt}</span></p>
-                                                                <p className="text-[11px]">Căn cứ GIR: <b>{pendingRequest.girRule}</b></p>
-                                                                <p className="text-[11px]">Lý do: {pendingRequest.reason}</p>
-
-                                                                {/* ✅ FILE ĐÍNH KÈM + NÚT TẢI VỀ */}
-                                                                {pendingRequest.fileName && pendingRequest.fileName !== 'Chưa đính kèm' ? (
-                                                                    <div className="mt-2 pt-2 border-t border-amber-200 flex items-center justify-between gap-2">
-                                                                        <div className="flex items-center gap-2 min-w-0 flex-1">
-                                                                            <div className="p-1.5 bg-amber-100 text-amber-700 rounded shrink-0">
-                                                                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1.001 1.001 0 01.707.293l5.414 5.414a1.001 1.001 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                                                </svg>
-                                                                            </div>
-                                                                            <div className="min-w-0 flex-1">
-                                                                                <p className="font-mono text-[11px] font-semibold truncate" title={pendingRequest.fileName}>
-                                                                                    {pendingRequest.fileName}
-                                                                                </p>
-                                                                                {pendingRequest.fileMeta && (
-                                                                                    <p className="text-[10px] text-amber-700">
-                                                                                        {(pendingRequest.fileMeta.size / 1024).toFixed(1)} KB
-                                                                                    </p>
-                                                                                )}
-                                                                            </div>
-                                                                        </div>
-                                                                        {pendingRequest.fileBlob && (
-                                                                            <button
-                                                                                type="button"
-                                                                                onClick={handleDownloadFile}
-                                                                                className="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-[10px] transition flex items-center space-x-1 shrink-0 shadow"
-                                                                                title="Tải file về để xem">
-                                                                                <Icons.Download />
-                                                                                <span>Tải về</span>
-                                                                            </button>
-                                                                        )}
-                                                                    </div>
-                                                                ) : (
-                                                                    <p className="text-[11px] italic text-amber-700">📎 Không có file đính kèm</p>
-                                                                )}
+                                                        {userRole === 'MANAGER' && (
+                                                            <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-start space-x-2">
+                                                                <Icons.AlertTriangle />
+                                                                <span>Trưởng phòng không trực tiếp tạo phiếu. Vui lòng chuyển sang <b>Chuyên viên XNK</b> để tạo Phiếu Yêu Cầu Ngoại Lệ và gửi lên phê duyệt.</span>
                                                             </div>
                                                         )}
-
-                                                        {pendingRequest && userRole === 'MANAGER' && (
-                                                            <div className="flex gap-2">
-                                                                <button onClick={approvePending}
-                                                                    className="flex-1 py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-xs transition flex items-center justify-center space-x-1 shadow">
-                                                                    <Icons.CheckCircle /><span>✓ Phê Duyệt</span>
-                                                                </button>
-                                                                <button onClick={rejectPending}
-                                                                    className="flex-1 py-2.5 px-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-semibold text-xs transition flex items-center justify-center space-x-1 shadow">
-                                                                    <Icons.XCircle /><span>✗ Từ Chối</span>
-                                                                </button>
-                                                            </div>
-                                                        )}
-
-                                                        {pendingRequest && userRole === 'STAFF' && (
-                                                            <p className="text-[10px] text-slate-500 italic text-center">
-                                                                💡 Đổi role sang <b>Trưởng Phòng Logistics</b> ở header để phê duyệt
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                )}
-
-                                                {finalStatus === 'APPROVED_OVERRIDE' && (
-                                                    <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 space-y-1">
-                                                        <p className="font-bold flex items-center space-x-1"><Icons.Unlock /><span>Đã phê duyệt mở khóa bởi Trưởng Phòng</span></p>
-                                                        <p className="text-[11px] text-indigo-700">Lý do: {formData.overrideReason || "Đã thẩm định hồ sơ kỹ thuật"}</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -1049,12 +1086,24 @@
                             </div>
                         )}
 
+                        {activeTab === 'overrides' && (
+                            <OverrideRequestsTab
+                                userRole={userRole}
+                                overrideRequests={overrideRequests}
+                                onView={(o) => setViewingOverride(o)}
+                                onApprove={handleApproveOverride}
+                                onReject={handleRejectOverride}
+                                onTransmit={handleOpenTransmitOverride}
+                                onDownloadFile={handleDownloadOverrideFile}
+                            />
+                        )}
+
                         {activeTab === 'list' && (
                             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <h2 className="text-base font-bold text-slate-900">Danh Sách Tờ Khai Đã Xử Lý</h2>
-                                        <p className="text-xs text-slate-500">Lịch sử toàn bộ tờ khai đã kiểm tra và truyền hải quan</p>
+                                        <p className="text-xs text-slate-500">Lịch sử toàn bộ tờ khai đã kiểm tra và truyền hải quan — click vào dòng để xem chi tiết</p>
                                     </div>
                                     <button onClick={() => setActiveTab('create')}
                                         className="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition flex items-center space-x-1">
@@ -1071,12 +1120,15 @@
                                             <thead>
                                                 <tr className="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider">
                                                     <th className="p-3">Mã Tờ Khai</th><th className="p-3">SKU</th><th className="p-3">Tên Hàng Hóa</th>
-                                                    <th className="p-3">Mã HS Khai Báo</th><th className="p-3">Trạng Thái</th><th className="p-3">Thời Gian</th><th className="p-3">Người Duyệt</th>
+                                                    <th className="p-3">Mã HS Khai Báo</th><th className="p-3">Trạng Thái</th><th className="p-3">Thời Gian</th>
+                                                    <th className="p-3">Người Duyệt</th><th className="p-3 text-right">Thao Tác</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-100">
                                                 {declarations.map((dec) => (
-                                                    <tr key={dec.id} className="hover:bg-slate-50 transition">
+                                                    <tr key={dec.id}
+                                                        className="hover:bg-blue-50/50 transition cursor-pointer"
+                                                        onClick={() => setViewingDeclaration(dec)}>
                                                         <td className="p-3 font-mono font-bold text-slate-900">{dec.decNo}</td>
                                                         <td className="p-3 font-medium text-slate-700">{dec.sku || '—'}</td>
                                                         <td className="p-3 max-w-xs truncate font-medium text-slate-800">{dec.itemName}</td>
@@ -1088,6 +1140,13 @@
                                                         </td>
                                                         <td className="p-3 text-slate-400 font-mono text-[11px]">{dec.createdAt}</td>
                                                         <td className="p-3 text-slate-600 font-medium">{dec.approvedBy}</td>
+                                                        <td className="p-3 text-right">
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); setViewingDeclaration(dec); }}
+                                                                className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-[10px] transition shadow">
+                                                                Xem chi tiết
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -1114,7 +1173,10 @@
                                         <li><b>Tầng 4</b> — Từ khóa mơ hồ & mô tả 4 thành phần SOP? (vi phạm ≥2 → KHÓA)</li>
                                     </ol>
                                     <p className="mt-1 pt-1 border-t border-blue-200 text-blue-700">
-                                        <b>Điều kiện bật nút Truyền:</b> phải nhập đủ <b>Mã tờ khai, Tên hàng, Mã HS, Thuế NK, VAT, Đơn giá, Số lượng</b> (SKU không bắt buộc) và <b>không vi phạm bất kỳ tầng nào</b> (hoặc đã được duyệt ngoại lệ).
+                                        <b>Điều kiện bật nút Truyền:</b> phải nhập đủ <b>Mã tờ khai, Tên hàng, Mã HS, Thuế NK, VAT, Đơn giá, Số lượng</b> (SKU không bắt buộc) và <b>không vi phạm bất kỳ tầng nào</b>.
+                                    </p>
+                                    <p className="mt-1 pt-1 border-t border-blue-200 text-indigo-700">
+                                        <b>🔐 Quy trình ngoại lệ:</b> khi tờ khai bị KHÓA, Chuyên viên XNK tạo <b>Phiếu Yêu Cầu Ngoại Lệ</b> (kèm HS, thuế, đơn giá, SL, lý do, GIR, tài liệu). Trưởng phòng phê duyệt tại tab <b>Phiếu Ngoại Lệ</b>. Sau khi duyệt, <b>Chuyên viên XNK</b> mở lại phiếu đã duyệt và bấm <b>Truyền tờ khai</b>.
                                     </p>
                                 </div>
 
@@ -1202,7 +1264,7 @@
 
                     {overrideModalOpen && (
                         <ModalOverrideRequest userRole={userRole} onClose={() => setOverrideModalOpen(false)}
-                            onSubmit={handleRequestOverride} currentFormData={formData} />
+                            onSubmit={handleSubmitOverrideRequest} currentFormData={formData} />
                     )}
 
                     {transmitModalOpen && (
@@ -1211,22 +1273,29 @@
                                 <div className="text-center space-y-2">
                                     <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto"><Icons.Send /></div>
                                     <h3 className="text-base font-bold text-slate-900">Xác Nhận Ký Số & Truyền Tờ Khai</h3>
-                                    <p className="text-xs text-slate-500">Tờ khai <span className="font-mono font-bold text-slate-800">{formData.decNo}</span> đã đạt tiêu chuẩn kiểm duyệt HS. Tiến hành kết nối cổng VNACCS/VCIS.</p>
+                                    <p className="text-xs text-slate-500">
+                                        Tờ khai <span className="font-mono font-bold text-slate-800">{transmitView.decNo}</span> đã đạt tiêu chuẩn kiểm duyệt HS. Tiến hành kết nối cổng VNACCS/VCIS.
+                                    </p>
                                 </div>
                                 <div className="p-3 bg-slate-50 rounded-xl text-xs space-y-2 border border-slate-200">
                                     <div className="flex justify-between"><span className="text-slate-500">Chữ Ký Số Doanh Nghiệp:</span><span className="font-semibold text-slate-800">VNPT-CA USB Token (Valid)</span></div>
-                                    <div className="flex justify-between"><span className="text-slate-500">Mã SKU:</span><span className="font-mono font-bold text-slate-700">{formData.sku || '—'}</span></div>
-                                    <div className="flex justify-between"><span className="text-slate-500">Mã HS Khai Báo:</span><span className="font-mono font-bold text-blue-700">{formData.hsDeclared}</span></div>
-                                    <div className="flex justify-between"><span className="text-slate-500">Thuế NK ({importTaxRate}%):</span><span className="font-mono font-bold text-amber-700">${importDutyAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span></div>
-                                    <div className="flex justify-between"><span className="text-slate-500">Thuế GTGT ({vatRate}%):</span><span className="font-mono font-bold text-indigo-700">${vatAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Mã SKU:</span><span className="font-mono font-bold text-slate-700">{transmitView.sku || '—'}</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Mã HS Khai Báo:</span><span className="font-mono font-bold text-blue-700">{transmitView.hsDeclared}</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Thuế NK ({transmitView.importTax}%):</span><span className="font-mono font-bold text-amber-700">${transmitView.importDutyAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Thuế GTGT ({transmitView.vatRate}%):</span><span className="font-mono font-bold text-indigo-700">${transmitView.vatAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span></div>
                                     <div className="flex justify-between pt-2 border-t border-slate-200">
                                         <span className="text-slate-600 font-semibold">Tổng thuế phải nộp:</span>
-                                        <span className="font-mono font-bold text-rose-600">${totalTaxAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+                                        <span className="font-mono font-bold text-rose-600">${transmitView.totalTaxAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
                                     </div>
-                                    <div className="flex justify-between"><span className="text-slate-500">Trạng Thái Kiểm Duyệt:</span><span className="font-bold text-emerald-600">PASSED COMPLIANCE</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Trạng Thái Kiểm Duyệt:</span>
+                                        <span className={`font-bold ${activeOverrideForTransmit ? 'text-indigo-600' : 'text-emerald-600'}`}>
+                                            {activeOverrideForTransmit ? 'APPROVED OVERRIDE' : 'PASSED COMPLIANCE'}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Người Truyền:</span><span className="font-bold text-slate-800">Chuyên viên XNK</span></div>
                                 </div>
                                 <div className="flex space-x-3 pt-2">
-                                    <button onClick={() => setTransmitModalOpen(false)}
+                                    <button onClick={() => { setTransmitModalOpen(false); setTransmitOverrideId(null); }}
                                         className="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-50 transition">Hủy Bỏ</button>
                                     <button onClick={confirmTransmit}
                                         className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-lg shadow-emerald-100 transition">Ký Số & Truyền Ngay</button>
@@ -1234,10 +1303,484 @@
                             </div>
                         </div>
                     )}
+
+                    {viewingDeclaration && (
+                        <ModalDeclarationDetail
+                            dec={viewingDeclaration}
+                            onClose={() => setViewingDeclaration(null)}
+                            onReload={handleLoadDeclarationToForm}
+                        />
+                    )}
+
+                    {viewingOverride && (
+                        <ModalOverrideDetail
+                            override={viewingOverride}
+                            userRole={userRole}
+                            onClose={() => setViewingOverride(null)}
+                            onApprove={handleApproveOverride}
+                            onReject={handleRejectOverride}
+                            onTransmit={handleOpenTransmitOverride}
+                            onDownloadFile={handleDownloadOverrideFile}
+                        />
+                    )}
                 </div>
             );
         }
 
+        // ==================== OVERRIDE REQUESTS TAB ====================
+        function OverrideRequestsTab({ userRole, overrideRequests, onView, onApprove, onReject, onTransmit, onDownloadFile }) {
+            const pendingCount = overrideRequests.filter(r => r.status === 'PENDING').length;
+
+            const statusBadge = (status) => {
+                switch (status) {
+                    case 'PENDING':
+                        return <span className="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.AlertTriangle /><span>CHỜ DUYỆT</span></span>;
+                    case 'APPROVED':
+                        return <span className="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.Unlock /><span>ĐÃ DUYỆT — CHỜ TRUYỀN</span></span>;
+                    case 'REJECTED':
+                        return <span className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.XCircle /><span>TỪ CHỐI</span></span>;
+                    case 'TRANSMITTED':
+                        return <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.CheckCircle /><span>ĐÃ TRUYỀN</span></span>;
+                    default:
+                        return null;
+                }
+            };
+
+            return (
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <div className="flex justify-between items-center flex-wrap gap-3">
+                        <div>
+                            <h2 className="text-base font-bold text-slate-900">Phiếu Yêu Cầu Phê Duyệt Ngoại Lệ HS</h2>
+                            <p className="text-xs text-slate-500">Nơi lưu toàn bộ phiếu ngoại lệ đã gửi — Trưởng phòng duyệt, Chuyên viên XNK truyền tờ khai đã duyệt</p>
+                        </div>
+                        {pendingCount > 0 && userRole === 'MANAGER' && (
+                            <span className="px-3 py-1.5 bg-amber-100 text-amber-800 border border-amber-200 font-bold text-xs rounded-full flex items-center space-x-1 animate-pulse">
+                                <Icons.AlertTriangle /><span>{pendingCount} phiếu đang chờ bạn duyệt</span>
+                            </span>
+                        )}
+                    </div>
+
+                    {overrideRequests.length === 0 ? (
+                        <div className="p-10 text-center text-slate-400 text-xs italic border border-dashed border-slate-200 rounded-lg">
+                            Chưa có phiếu ngoại lệ nào. Khi tờ khai bị KHÓA, Chuyên viên XNK có thể tạo phiếu tại tab "Tạo & Kiểm Tra Tờ Khai".
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {overrideRequests.map(o => (
+                                <div key={o.id}
+                                    className={`p-4 rounded-xl border transition cursor-pointer hover:shadow-sm ${
+                                        o.status === 'PENDING' ? 'bg-amber-50/40 border-amber-200 hover:border-amber-300'
+                                        : o.status === 'APPROVED' ? 'bg-indigo-50/40 border-indigo-200 hover:border-indigo-300'
+                                        : o.status === 'REJECTED' ? 'bg-rose-50/40 border-rose-200 hover:border-rose-300'
+                                        : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                                    }`}
+                                    onClick={() => onView(o)}>
+                                    <div className="flex items-start justify-between gap-3 flex-wrap">
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 flex-wrap">
+                                                <span className="font-mono font-bold text-slate-900 text-xs">{o.id}</span>
+                                                {statusBadge(o.status)}
+                                                <span className="text-[10px] text-slate-400 font-mono">{o.requestedAt}</span>
+                                            </div>
+                                            <div className="mt-2 space-y-0.5">
+                                                <p className="text-xs font-bold text-slate-900 truncate">📄 {o.decNo || '—'} · {o.sku || 'Không SKU'}</p>
+                                                <p className="text-[11px] text-slate-700 truncate">{o.itemName}</p>
+                                                <p className="text-[11px] text-slate-500">
+                                                    HS: <span className="font-mono font-bold text-blue-700">{o.hsDeclared}</span>
+                                                    {' · '}NK <b className="text-amber-700">{showVal(o.importTax)}%</b>
+                                                    {' · '}VAT <b className="text-indigo-700">{showVal(o.vatRate)}%</b>
+                                                    {' · '}ĐG <b className="font-mono">${showVal(o.unitPrice)}</b>
+                                                    {' · '}SL <b className="font-mono">{showVal(o.qty)}</b>
+                                                    {' · '}CIF <b className="font-mono">${Number(o.cifValue || 0).toLocaleString()}</b>
+                                                </p>
+                                                <p className="text-[11px] text-slate-500 italic">Lý do: {o.reason}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col items-end gap-1.5 shrink-0">
+                                            {o.status === 'PENDING' && userRole === 'MANAGER' && (
+                                                <div className="flex gap-1.5">
+                                                    <button onClick={(e) => { e.stopPropagation(); onApprove(o.id); }}
+                                                        className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[10px] shadow">
+                                                        ✓ Duyệt
+                                                    </button>
+                                                    <button onClick={(e) => { e.stopPropagation(); onReject(o.id); }}
+                                                        className="px-2.5 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-bold text-[10px] shadow">
+                                                        ✗ Từ chối
+                                                    </button>
+                                                </div>
+                                            )}
+                                            {o.status === 'APPROVED' && userRole === 'STAFF' && (
+                                                <button onClick={(e) => { e.stopPropagation(); onTransmit(o.id); }}
+                                                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[10px] shadow flex items-center space-x-1">
+                                                    <Icons.Send /><span>Truyền ngay</span>
+                                                </button>
+                                            )}
+                                            {o.status === 'PENDING' && userRole === 'STAFF' && (
+                                                <span className="text-[10px] text-amber-700 italic">⏳ Chờ Trưởng phòng duyệt</span>
+                                            )}
+                                            {o.status === 'APPROVED' && userRole === 'MANAGER' && (
+                                                <span className="text-[10px] text-indigo-700 italic">✓ Bạn đã duyệt — chờ Staff truyền</span>
+                                            )}
+                                            {o.status === 'TRANSMITTED' && (
+                                                <span className="text-[10px] text-emerald-700 italic">Đã truyền lúc {o.transmittedAt}</span>
+                                            )}
+                                            <button onClick={(e) => { e.stopPropagation(); onView(o); }}
+                                                className="px-2.5 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-lg font-bold text-[10px]">
+                                                Xem chi tiết
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // ==================== OVERRIDE DETAIL MODAL ====================
+        function ModalOverrideDetail({ override, userRole, onClose, onApprove, onReject, onTransmit, onDownloadFile }) {
+            const fmt = (n) => (n === undefined || n === null || isNaN(n))
+                ? '—'
+                : Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+            const statusBadge = () => {
+                switch (override.status) {
+                    case 'PENDING':
+                        return <span className="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.AlertTriangle /><span>CHỜ DUYỆT</span></span>;
+                    case 'APPROVED':
+                        return <span className="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.Unlock /><span>ĐÃ DUYỆT — CHỜ TRUYỀN</span></span>;
+                    case 'REJECTED':
+                        return <span className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.XCircle /><span>TỪ CHỐI</span></span>;
+                    case 'TRANSMITTED':
+                        return <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px] flex items-center space-x-1"><Icons.CheckCircle /><span>ĐÃ TRUYỀN</span></span>;
+                    default: return null;
+                }
+            };
+
+            return (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl">
+                        <div className="p-6 border-b border-slate-100 flex justify-between items-start sticky top-0 bg-white z-10">
+                            <div>
+                                <h3 className="font-bold text-slate-900 text-base flex items-center space-x-2">
+                                    <Icons.ClipboardList />
+                                    <span>Chi Tiết Phiếu Ngoại Lệ {override.id}</span>
+                                </h3>
+                                <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                    {statusBadge()}
+                                    <span className="text-xs text-slate-500">Gửi lúc: <span className="font-mono">{override.requestedAt}</span> bởi {override.requestedBy}</span>
+                                </div>
+                            </div>
+                            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 font-bold text-xl leading-none">×</button>
+                        </div>
+
+                        <div className="p-6 space-y-5">
+                            <div>
+                                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide mb-2 pb-1 border-b border-slate-200">📋 Thông tin tờ khai</h4>
+                                <div className="grid grid-cols-2 gap-3 text-xs">
+                                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase">Mã Tờ Khai</p>
+                                        <p className="font-mono font-bold text-slate-900">{override.decNo || '—'}</p>
+                                    </div>
+                                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase">SKU Nội Bộ</p>
+                                        <p className="font-mono font-bold text-slate-900">{override.sku || '—'}</p>
+                                    </div>
+                                </div>
+                                <div className="mt-3 p-3 bg-blue-50/40 rounded-xl border border-blue-200">
+                                    <p className="text-[10px] font-bold text-slate-500 uppercase">Tên Hàng Hóa</p>
+                                    <p className="font-medium text-slate-800 text-sm">{override.itemName}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide mb-2 pb-1 border-b border-slate-200">🧾 Mã HS & Thuế khai báo</h4>
+                                <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-200 space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-bold text-slate-500 uppercase">Mã HS</span>
+                                        <span className="font-mono font-bold text-blue-700 text-sm">{override.hsDeclared}</span>
+                                    </div>
+                                    {override.hsDescription && (
+                                        <p className="text-[11px] text-slate-700"><b>Mô tả BT2026:</b> {override.hsDescription}</p>
+                                    )}
+                                    <div className="flex flex-wrap gap-3 text-[11px] pt-1 border-t border-emerald-200">
+                                        {override.unit && <span>ĐVT: <b className="font-mono">{override.unit}</b></span>}
+                                        {override.mfn !== null && override.mfn !== undefined && <span>MFN: <b className="text-amber-700">{override.mfn}%</b></span>}
+                                        {override.normal !== null && override.normal !== undefined && <span>Thông thường: <b className="text-slate-700">{override.normal}%</b></span>}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3 text-xs mt-3">
+                                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase">Đơn Giá (USD)</p>
+                                        <p className="font-mono font-bold text-slate-900">${fmt(override.unitPrice)}</p>
+                                    </div>
+                                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase">Số Lượng</p>
+                                        <p className="font-mono font-bold text-slate-900">{fmt(override.qty)}</p>
+                                    </div>
+                                </div>
+
+                                <div className="mt-3 p-4 rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-blue-50/40 space-y-2">
+                                    <p className="text-xs font-bold text-slate-800 uppercase tracking-wide pb-2 border-b border-slate-200">Bảng Tính Thuế</p>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-600">Trị giá CIF:</span>
+                                        <span className="font-mono font-bold text-slate-900">${fmt(override.cifValue)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-600">Thuế NK ({showVal(override.importTax)}%):</span>
+                                        <span className="font-mono font-bold text-amber-700">${fmt(override.importDutyAmount)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-600">Thuế GTGT ({showVal(override.vatRate)}%):</span>
+                                        <span className="font-mono font-bold text-indigo-700">${fmt(override.vatAmount)}</span>
+                                    </div>
+                                    <div className="flex justify-between pt-2 border-t-2 border-slate-300">
+                                        <span className="text-xs font-bold text-slate-800 uppercase">Tổng Thuế:</span>
+                                        <span className="font-mono font-bold text-rose-600 text-sm">${fmt(override.totalTaxAmount)}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {override.blockedLayers && override.blockedLayers.length > 0 && (
+                                <div>
+                                    <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide mb-2 pb-1 border-b border-slate-200">⚠️ Vi phạm Rule Engine tại thời điểm gửi</h4>
+                                    <div className="space-y-2">
+                                        {override.blockedLayers.map((layer, idx) => (
+                                            <div key={idx} className="p-2.5 bg-rose-50/60 border border-rose-200 rounded-lg text-[11px] text-rose-900 space-y-0.5">
+                                                <p className="font-bold">{layer.name}</p>
+                                                <ul className="list-disc pl-4 space-y-0.5 opacity-90">
+                                                    {layer.details.map((d, i) => <li key={i}>{d}</li>)}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            <div>
+                                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide mb-2 pb-1 border-b border-slate-200">📝 Giải trình kỹ thuật</h4>
+                                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                    <p><span className="text-slate-500">Căn cứ GIR:</span> <b className="text-indigo-700">{override.girRule}</b></p>
+                                    <p className="text-slate-800"><span className="text-slate-500">Lý do:</span> {override.reason}</p>
+                                    {override.fileName && override.fileName !== 'Chưa đính kèm' ? (
+                                        <div className="mt-2 pt-2 border-t border-slate-200 flex items-center justify-between gap-2">
+                                            <div className="flex items-center gap-2 min-w-0 flex-1">
+                                                <div className="p-1.5 bg-slate-200 text-slate-700 rounded shrink-0">
+                                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1.001 1.001 0 01.707.293l5.414 5.414a1.001 1.001 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                    </svg>
+                                                </div>
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="font-mono text-[11px] font-semibold truncate" title={override.fileName}>{override.fileName}</p>
+                                                    {override.fileMeta && (
+                                                        <p className="text-[10px] text-slate-500">{(override.fileMeta.size / 1024).toFixed(1)} KB</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            {override.fileBlob && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => onDownloadFile(override)}
+                                                    className="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-[10px] transition flex items-center space-x-1 shrink-0 shadow">
+                                                    <Icons.Download /><span>Tải về</span>
+                                                </button>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <p className="text-[11px] italic text-slate-500">📎 Không có file đính kèm</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {override.status === 'APPROVED' && (
+                                <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 space-y-1">
+                                    <p className="font-bold flex items-center space-x-1"><Icons.Unlock /><span>Đã phê duyệt</span></p>
+                                    <p className="text-[11px]">Người duyệt: <b>{override.approvedBy}</b> lúc <span className="font-mono">{override.approvedAt}</span></p>
+                                </div>
+                            )}
+                            {override.status === 'REJECTED' && (
+                                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-900 space-y-1">
+                                    <p className="font-bold flex items-center space-x-1"><Icons.XCircle /><span>Đã từ chối</span></p>
+                                    <p className="text-[11px]">Người từ chối: <b>{override.rejectedBy}</b> lúc <span className="font-mono">{override.rejectedAt}</span></p>
+                                </div>
+                            )}
+                            {override.status === 'TRANSMITTED' && (
+                                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 space-y-1">
+                                    <p className="font-bold flex items-center space-x-1"><Icons.CheckCircle /><span>Đã truyền thành công</span></p>
+                                    <p className="text-[11px]">Người truyền: <b>{override.transmittedBy}</b> lúc <span className="font-mono">{override.transmittedAt}</span></p>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="p-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3 sticky bottom-0 bg-white">
+                            <button onClick={onClose}
+                                className="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-50 transition">
+                                Đóng
+                            </button>
+                            {override.status === 'PENDING' && userRole === 'MANAGER' && (
+                                <>
+                                    <button onClick={() => { onReject(override.id); onClose(); }}
+                                        className="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs shadow transition">
+                                        ✗ Từ Chối
+                                    </button>
+                                    <button onClick={() => { onApprove(override.id); onClose(); }}
+                                        className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow transition">
+                                        ✓ Phê Duyệt
+                                    </button>
+                                </>
+                            )}
+                            {override.status === 'APPROVED' && userRole === 'STAFF' && (
+                                <button onClick={() => onTransmit(override.id)}
+                                    className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center justify-center space-x-1">
+                                    <Icons.Send /><span>Ký Số & Truyền Tờ Khai Này</span>
+                                </button>
+                            )}
+                            {override.status === 'PENDING' && userRole === 'STAFF' && (
+                                <div className="flex-1 py-2.5 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl font-bold text-xs text-center">
+                                    ⏳ Đang chờ Trưởng phòng phê duyệt
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // ==================== DECLARATION DETAIL MODAL ====================
+        function ModalDeclarationDetail({ dec, onClose, onReload }) {
+            const fmt = (n) => (n === undefined || n === null || isNaN(n))
+                ? '—'
+                : Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+            const statusBadge = () => {
+                if (dec.status === 'PASSED')
+                    return <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">PASSED</span>;
+                if (dec.status === 'APPROVED_OVERRIDE')
+                    return <span className="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full font-bold text-[10px]">APPROVED OVERRIDE</span>;
+                return <span className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full font-bold text-[10px]">BLOCKED</span>;
+            };
+
+            return (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+                        <div className="p-6 border-b border-slate-100 flex justify-between items-start sticky top-0 bg-white z-10">
+                            <div>
+                                <h3 className="font-bold text-slate-900 text-base flex items-center space-x-2">
+                                    <Icons.FileText />
+                                    <span>Chi Tiết Tờ Khai {dec.decNo}</span>
+                                </h3>
+                                <p className="text-xs text-slate-500 mt-1">
+                                    Mã nội bộ: <span className="font-mono">{dec.id}</span> · Truyền lúc <span className="font-mono">{dec.createdAt}</span>
+                                </p>
+                            </div>
+                            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 font-bold text-xl leading-none">×</button>
+                        </div>
+
+                        <div className="p-6 space-y-5">
+                            <div className="flex items-center gap-3 flex-wrap">
+                                <span className="text-xs font-bold text-slate-700">Trạng thái:</span>
+                                {statusBadge()}
+                                {dec.transmittedBy && (
+                                    <span className="text-[11px] text-slate-500 italic">
+                                        — Truyền bởi: <b>{dec.transmittedBy}</b>
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 text-xs">
+                                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <p className="text-[10px] font-bold text-slate-500 uppercase">Mã Tờ Khai</p>
+                                    <p className="font-mono font-bold text-slate-900">{dec.decNo}</p>
+                                </div>
+                                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <p className="text-[10px] font-bold text-slate-500 uppercase">SKU Nội Bộ</p>
+                                    <p className="font-mono font-bold text-slate-900">{dec.sku || '—'}</p>
+                                </div>
+                            </div>
+
+                            <div className="p-3 bg-blue-50/40 rounded-xl border border-blue-200 space-y-1">
+                                <p className="text-[10px] font-bold text-slate-500 uppercase">Tên Hàng Hóa Khai Báo</p>
+                                <p className="font-medium text-slate-800 text-sm">{dec.itemName}</p>
+                            </div>
+
+                            <div className="p-3 bg-emerald-50/40 rounded-xl border border-emerald-200 space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <p className="text-[10px] font-bold text-slate-500 uppercase">Mã HS Khai Báo</p>
+                                    <span className="font-mono font-bold text-blue-700 text-sm">{dec.hsDeclared}</span>
+                                </div>
+                                {dec.hsDescription && (
+                                    <p className="text-[11px] text-slate-700">
+                                        <b>Mô tả BT2026:</b> {dec.hsDescription}
+                                    </p>
+                                )}
+                                <div className="flex flex-wrap gap-3 text-[11px] pt-1 border-t border-emerald-200">
+                                    {dec.unit && <span>ĐVT: <b className="font-mono">{dec.unit}</b></span>}
+                                    {dec.mfn !== null && dec.mfn !== undefined && <span>MFN: <b className="text-amber-700">{dec.mfn}%</b></span>}
+                                    {dec.normal !== null && dec.normal !== undefined && <span>Thông thường: <b className="text-slate-700">{dec.normal}%</b></span>}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 text-xs">
+                                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <p className="text-[10px] font-bold text-slate-500 uppercase">Đơn Giá (USD)</p>
+                                    <p className="font-mono font-bold text-slate-900">${fmt(dec.unitPrice)}</p>
+                                </div>
+                                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <p className="text-[10px] font-bold text-slate-500 uppercase">Số Lượng</p>
+                                    <p className="font-mono font-bold text-slate-900">{fmt(dec.qty)}</p>
+                                </div>
+                            </div>
+
+                            <div className="p-4 rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-blue-50/40 space-y-2">
+                                <p className="text-xs font-bold text-slate-800 uppercase tracking-wide pb-2 border-b border-slate-200">🧾 Bảng Tính Thuế</p>
+                                <div className="flex justify-between text-xs">
+                                    <span className="text-slate-600">Trị giá CIF:</span>
+                                    <span className="font-mono font-bold text-slate-900">${fmt(dec.cifValue)}</span>
+                                </div>
+                                <div className="flex justify-between text-xs">
+                                    <span className="text-slate-600">Thuế NK ({showVal(dec.importTax)}%):</span>
+                                    <span className="font-mono font-bold text-amber-700">${fmt(dec.importDutyAmount)}</span>
+                                </div>
+                                <div className="flex justify-between text-xs">
+                                    <span className="text-slate-600">Thuế GTGT ({showVal(dec.vatRate)}%):</span>
+                                    <span className="font-mono font-bold text-indigo-700">${fmt(dec.vatAmount)}</span>
+                                </div>
+                                <div className="flex justify-between pt-2 border-t-2 border-slate-300">
+                                    <span className="text-xs font-bold text-slate-800 uppercase">Tổng Thuế:</span>
+                                    <span className="font-mono font-bold text-rose-600 text-sm">${fmt(dec.totalTaxAmount)}</span>
+                                </div>
+                            </div>
+
+                            {dec.status === 'APPROVED_OVERRIDE' && (
+                                <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 space-y-1">
+                                    <p className="font-bold flex items-center space-x-1">
+                                        <Icons.Unlock /><span>Đã phê duyệt ngoại lệ</span>
+                                    </p>
+                                    {dec.girRule && <p className="text-[11px]">Căn cứ GIR: <b>{dec.girRule}</b></p>}
+                                    {dec.overrideReason && <p className="text-[11px]">Lý do: {dec.overrideReason}</p>}
+                                    {dec.overrideId && <p className="text-[11px]">Mã phiếu ngoại lệ: <b className="font-mono">{dec.overrideId}</b></p>}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="p-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3 sticky bottom-0 bg-white">
+                            <button onClick={onClose}
+                                className="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-50 transition">
+                                Đóng
+                            </button>
+                            <button onClick={() => onReload(dec)}
+                                className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center justify-center space-x-1">
+                                <Icons.Refresh /><span>Nạp lại vào form để tạo bản mới</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // ==================== OVERRIDE REQUEST MODAL ====================
         function ModalOverrideRequest({ userRole, onClose, onSubmit, currentFormData }) {
             const [girRule, setGirRule] = React.useState('GIR 3(b)');
             const [reason, setReason] = React.useState('');
@@ -1251,7 +1794,6 @@
                     alert("File quá lớn. Vui lòng chọn file dưới 10MB.");
                     return;
                 }
-                // ✅ Lưu File gốc (Blob) để có thể tải về sau
                 setAttachedFile({
                     name: file.name,
                     size: file.size,
@@ -1283,20 +1825,44 @@
                     reason,
                     fileName: attachedFile ? attachedFile.name : 'Chưa đính kèm',
                     fileMeta: attachedFile,
-                    fileBlob: attachedFile ? attachedFile.blob : null   // ✅ Truyền Blob
+                    fileBlob: attachedFile ? attachedFile.blob : null
                 });
             };
 
+            const cifDisplay = (parseFloat(currentFormData.unitPrice) || 0) * (parseFloat(currentFormData.qty) || 0);
+
             return (
                 <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl">
+                    <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl max-h-[92vh] overflow-y-auto">
                         <div className="flex justify-between items-center border-b border-slate-100 pb-3">
                             <div>
                                 <h3 className="font-bold text-slate-900 text-base">Phiếu Yêu Cầu Phê Duyệt Mở Khóa Ngoại Lệ HS</h3>
-                                <p className="text-xs text-slate-500">Giải trình căn cứ kỹ thuật & 6 Quy tắc GIR Hải quan</p>
+                                <p className="text-xs text-slate-500">Toàn bộ dữ liệu tờ khai (HS, thuế, giá, SL) sẽ được đính kèm tự động vào phiếu</p>
                             </div>
                             <button onClick={onClose} className="text-slate-400 hover:text-slate-600 font-bold text-lg">×</button>
                         </div>
+
+                        {/* ✅ ĐÃ FIX: Hiển thị đầy đủ Đơn giá, Số lượng, Trị giá CIF */}
+                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-700 space-y-1">
+                            <p><span className="text-slate-500">Tờ khai:</span> <b className="font-mono">{currentFormData.decNo || '—'}</b></p>
+                            <p><span className="text-slate-500">Tên hàng:</span> <b>{currentFormData.itemName || '—'}</b></p>
+                            <p><span className="text-slate-500">Mã HS:</span> <b className="font-mono text-blue-700">{currentFormData.hsDeclared || '—'}</b></p>
+                            <p>
+                                <span className="text-slate-500">Thuế NK:</span> <b className="text-amber-700">{showVal(currentFormData.importTax)}%</b>
+                                {' · '}
+                                <span className="text-slate-500">VAT:</span> <b className="text-indigo-700">{showVal(currentFormData.vatRate)}%</b>
+                            </p>
+                            <p>
+                                <span className="text-slate-500">Đơn giá:</span> <b className="font-mono">${showVal(currentFormData.unitPrice)}</b>
+                                {' · '}
+                                <span className="text-slate-500">Số lượng:</span> <b className="font-mono">{showVal(currentFormData.qty)}</b>
+                            </p>
+                            <p>
+                                <span className="text-slate-500">Trị giá CIF:</span>{' '}
+                                <b className="font-mono">${cifDisplay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</b>
+                            </p>
+                        </div>
+
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
                                 <label className="block text-xs font-bold text-slate-700 mb-1">Căn Cứ Quy Tắc Giải Thích HS (GIR Rules)</label>
@@ -1375,7 +1941,7 @@
                                     className="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-50 transition">Hủy Bỏ</button>
                                 <button type="submit"
                                     className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs shadow-lg shadow-indigo-100 transition">
-                                    {userRole === 'MANAGER' ? 'Phê Duyệt & Mở Khóa Ngay' : 'Gửi Trưởng Phòng Phê Duyệt'}
+                                    Gửi Trưởng Phòng Phê Duyệt
                                 </button>
                             </div>
                         </form>
