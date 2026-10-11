@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Cảnh Báo & Khóa Luồng Mã HS Tự Động (HS Compliance Gate)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-700">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Icons = {
+            ShieldCheck: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>,
+            Lock: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>,
+            Unlock: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>,
+            AlertTriangle: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>,
+            CheckCircle: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
+            XCircle: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
+            Send: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>,
+            Layers: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>,
+            FileText: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1.001 1.001 0 01.707.293l5.414 5.414a1.001 1.001 0 01.293.707V19a2 2 0 01-2 2z"/></svg>,
+            Settings: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>,
+            Plus: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/></svg>,
+            Search: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>,
+            Refresh: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        };
+
+        // ===== BẢNG THAM CHIẾU BT2026 - NHÓM 4401-4407 (GỖ & LÂM SẢN) =====
+        // Cột theo bảng BT2026:
+        //   mfn    = NK ưu đãi (MFN)
+        //   normal = NK thông thường (TT)
+        //   vatOptions = [8, 10] — toàn bộ nhóm này không có VAT 5%
+        const BT2026_REFERENCE = {
+            // ===== 4401 =====
+            "44011100": { desc: "Gỗ nhiên liệu, dạng khúc, thanh nhỏ, cành, bó hoặc các dạng tương tự - Từ cây lá kim", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44011200": { desc: "Gỗ nhiên liệu, dạng khúc, thanh nhỏ, cành, bó hoặc các dạng tương tự - Từ cây không thuộc loài lá kim", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44012100": { desc: "Vỏ bào hoặc dăm gỗ - Từ cây lá kim", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44012200": { desc: "Vỏ bào hoặc dăm gỗ - Từ cây không thuộc loài lá kim", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44013100": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, đã đóng thành khúc/bánh/viên - Viên gỗ", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44013200": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, đã đóng thành khúc/bánh/viên - Đóng thành bánh (briquettes)", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44013900": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, đã đóng thành khúc/bánh/viên - Loại khác", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44014100": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, chưa đóng thành khối - Mùn cưa", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44014900": { desc: "Mùn cưa, phế liệu và mảnh vụn gỗ, chưa đóng thành khối - Loại khác", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+
+            // ===== 4402 =====
+            "44021000": { desc: "Than củi (kể cả than đốt từ vỏ quả hoặc hạt) - Của tre", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
+            "44022010": { desc: "Than củi - Của vỏ quả hoặc hạt - Than gáo dừa", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
+            "44022090": { desc: "Than củi - Của vỏ quả hoặc hạt - Loại khác", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
+            "44029000": { desc: "Than củi - Loại khác", unit: "kg", mfn: 5, normal: 7.5, vat: 8, vatOptions: [8, 10] },
+
+            // ===== 4403 =====
+            "44031110": { desc: "Gỗ cây dạng thô, đã xử lý bằng sơn/chất bảo quản - Từ cây lá kim - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44031190": { desc: "Gỗ cây dạng thô, đã xử lý bằng sơn/chất bảo quản - Từ cây lá kim - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44031210": { desc: "Gỗ cây dạng thô, đã xử lý bằng sơn/chất bảo quản - Từ cây không thuộc loài lá kim - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44031290": { desc: "Gỗ cây dạng thô, đã xử lý bằng sơn/chất bảo quản - Từ cây không thuộc loài lá kim - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032110": { desc: "Gỗ cây dạng thô - Từ cây thông (Pinus spp.), mặt cắt ngang nhỏ nhất >=15cm - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032190": { desc: "Gỗ cây dạng thô - Từ cây thông (Pinus spp.), mặt cắt ngang nhỏ nhất >=15cm - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032210": { desc: "Gỗ cây dạng thô - Từ cây thông (Pinus spp.), loại khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032290": { desc: "Gỗ cây dạng thô - Từ cây thông (Pinus spp.), loại khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032310": { desc: "Gỗ cây dạng thô - Từ cây linh sam (Abies spp.) và vân sam (Picea spp.), >=15cm - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032390": { desc: "Gỗ cây dạng thô - Từ cây linh sam (Abies spp.) và vân sam (Picea spp.), >=15cm - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032410": { desc: "Gỗ cây dạng thô - Từ cây linh sam (Abies spp.) và vân sam (Picea spp.), loại khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032490": { desc: "Gỗ cây dạng thô - Từ cây linh sam (Abies spp.) và vân sam (Picea spp.), loại khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032510": { desc: "Gỗ cây dạng thô - Loại khác, mặt cắt ngang nhỏ nhất >=15cm - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032590": { desc: "Gỗ cây dạng thô - Loại khác, mặt cắt ngang nhỏ nhất >=15cm - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032610": { desc: "Gỗ cây dạng thô - Loại khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44032690": { desc: "Gỗ cây dạng thô - Loại khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44034110": { desc: "Gỗ cây dạng thô - Gỗ Meranti đỏ sẫm/đỏ nhạt/Bakau - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44034190": { desc: "Gỗ cây dạng thô - Gỗ Meranti đỏ sẫm/đỏ nhạt/Bakau - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44034210": { desc: "Gỗ cây dạng thô - Gỗ Tếch (Teak) - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44034290": { desc: "Gỗ cây dạng thô - Gỗ Tếch (Teak) - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44034910": { desc: "Gỗ cây dạng thô - Gỗ nhiệt đới khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44034990": { desc: "Gỗ cây dạng thô - Gỗ nhiệt đới khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039110": { desc: "Gỗ cây dạng thô - Gỗ sồi (Quercus spp.) - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039190": { desc: "Gỗ cây dạng thô - Gỗ sồi (Quercus spp.) - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039310": { desc: "Gỗ cây dạng thô - Gỗ dẻ gai (Fagus spp.), >=15cm - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039390": { desc: "Gỗ cây dạng thô - Gỗ dẻ gai (Fagus spp.), >=15cm - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039410": { desc: "Gỗ cây dạng thô - Gỗ dẻ gai (Fagus spp.), loại khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039490": { desc: "Gỗ cây dạng thô - Gỗ dẻ gai (Fagus spp.), loại khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039510": { desc: "Gỗ cây dạng thô - Gỗ bạch dương (Betula spp.), >=15cm - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039590": { desc: "Gỗ cây dạng thô - Gỗ bạch dương (Betula spp.), >=15cm - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039610": { desc: "Gỗ cây dạng thô - Gỗ bạch dương (Betula spp.), loại khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039690": { desc: "Gỗ cây dạng thô - Gỗ bạch dương (Betula spp.), loại khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039710": { desc: "Gỗ cây dạng thô - Gỗ dương (Populus spp.) - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039790": { desc: "Gỗ cây dạng thô - Gỗ dương (Populus spp.) - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039810": { desc: "Gỗ cây dạng thô - Gỗ bạch đàn (Eucalyptus spp.) - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039890": { desc: "Gỗ cây dạng thô - Gỗ bạch đàn (Eucalyptus spp.) - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039910": { desc: "Gỗ cây dạng thô - Loại khác - Cột sào, khúc gỗ xẻ và gỗ lạng", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44039990": { desc: "Gỗ cây dạng thô - Loại khác - Loại khác", unit: "kg/m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+
+            // ===== 4404 =====
+            "44041000": { desc: "Gỗ đai thùng; cọc chẻ; sào, cột, cọc bằng gỗ...; nan gỗ (chipwood) - Từ cây lá kim", unit: "kg/m3", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44042010": { desc: "Gỗ đai thùng... - Từ cây không thuộc loài lá kim - Nan gỗ (Chipwood)", unit: "kg/m3", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+            "44042090": { desc: "Gỗ đai thùng... - Từ cây không thuộc loài lá kim - Loại khác", unit: "kg/m3", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+
+            // ===== 4405 =====
+            "44050010": { desc: "Sợi gỗ; bột gỗ - Sợi gỗ", unit: "kg", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44050020": { desc: "Sợi gỗ; bột gỗ - Bột gỗ", unit: "kg", mfn: 3, normal: 4.5, vat: 8, vatOptions: [8, 10] },
+
+            // ===== 4406 =====
+            "44061100": { desc: "Tà vẹt đường sắt hoặc đường xe điện (thanh ngang) bằng gỗ - Chưa ngâm tẩm - Từ cây lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44061200": { desc: "Tà vẹt đường sắt... - Chưa ngâm tẩm - Từ cây không thuộc loài lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44069100": { desc: "Tà vẹt đường sắt... - Loại khác - Từ cây lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44069200": { desc: "Tà vẹt đường sắt... - Loại khác - Từ cây không thuộc loài lá kim", unit: "m3/chiếc", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+
+            // ===== 4407 =====
+            "44071110": { desc: "Gỗ đã cưa/xẻ dọc, lạng/bóc... dày >6mm - Từ cây thông (Pinus spp.) - Đã xẻ dọc, chưa gia công thêm", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44071190": { desc: "Gỗ đã cưa/xẻ dọc... - Từ cây thông (Pinus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44071200": { desc: "Gỗ đã cưa/xẻ dọc... - Từ cây linh sam (Abies spp.) và vân sam (Picea spp.)", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44071300": { desc: "Gỗ đã cưa/xẻ dọc... - Từ cây nhóm S-P-F", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44071400": { desc: "Gỗ đã cưa/xẻ dọc... - Từ cây Độc cần (Western hemlock) và linh sam", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44071910": { desc: "Gỗ đã cưa/xẻ dọc... - Loại khác - Đã xẻ dọc, chưa gia công thêm", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44071990": { desc: "Gỗ đã cưa/xẻ dọc... - Loại khác - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072110": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Mahogany (Swietenia spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072190": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Mahogany (Swietenia spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072210": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Virola, Imbuia và Balsa - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072290": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Virola, Imbuia và Balsa - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072310": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Tếch (Teak) - Đã xẻ dọc, chưa gia công thêm", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072320": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Tếch (Teak) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072390": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Tếch (Teak) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072512": { desc: "Gỗ đã cưa/xẻ dọc... - Meranti đỏ sẫm/đỏ nhạt - Đã xẻ dọc, chưa gia công thêm", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072513": { desc: "Gỗ đã cưa/xẻ dọc... - Meranti đỏ sẫm/đỏ nhạt - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072519": { desc: "Gỗ đã cưa/xẻ dọc... - Meranti đỏ sẫm/đỏ nhạt - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072521": { desc: "Gỗ đã cưa/xẻ dọc... - Meranti Bakau - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072529": { desc: "Gỗ đã cưa/xẻ dọc... - Meranti Bakau - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072620": { desc: "Gỗ đã cưa/xẻ dọc... - Lauan trắng/Meranti trắng/Seraya trắng/Meranti vàng/Alan - Đã xẻ dọc", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072630": { desc: "Gỗ đã cưa/xẻ dọc... - Lauan trắng/Meranti trắng/Seraya trắng/Meranti vàng/Alan - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072690": { desc: "Gỗ đã cưa/xẻ dọc... - Lauan trắng/Meranti trắng/Seraya trắng/Meranti vàng/Alan - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072720": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Sapelli - Đã xẻ dọc, chưa gia công thêm", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072730": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Sapelli - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072790": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Sapelli - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072810": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Iroko - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072890": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Iroko - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072912": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Jelutong (Dyera spp.) - Đã xẻ dọc", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072913": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Jelutong (Dyera spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072919": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Jelutong (Dyera spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072922": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Kapur (Dryobalanops spp.) - Đã xẻ dọc", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072923": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Kapur (Dryobalanops spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072929": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Kapur (Dryobalanops spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072932": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Kempas (Koompassia spp.) - Đã xẻ dọc", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072933": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Kempas (Koompassia spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072939": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Kempas (Koompassia spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072942": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Keruing (Dipterocarpus spp.) - Đã xẻ dọc", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072943": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Keruing (Dipterocarpus spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072949": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Keruing (Dipterocarpus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072951": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Ramin (Gonystylus spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072959": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Ramin (Gonystylus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072972": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Balau (Shorea spp.) - Đã xẻ dọc", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072973": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Balau (Shorea spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072979": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Balau (Shorea spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072982": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Mengkulang (Heritiera spp.) - Đã xẻ dọc", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072983": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Mengkulang (Heritiera spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072989": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Mengkulang (Heritiera spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072991": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Jongkong (Dactylocladus spp.) và Merbau (Intsia spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072992": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Jongkong (Dactylocladus spp.) và Merbau (Intsia spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072994": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Albizia (Paraserianthes falcataria) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072995": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ Albizia (Paraserianthes falcataria) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072996": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ cao su (Hevea Brasiliensis) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072997": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ cao su (Hevea Brasiliensis) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072998": { desc: "Gỗ đã cưa/xẻ dọc... - Loại khác - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44072999": { desc: "Gỗ đã cưa/xẻ dọc... - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079120": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ sồi (Quercus spp.) - Đã xẻ dọc, chưa gia công thêm", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079130": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ sồi (Quercus spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079190": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ sồi (Quercus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079210": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ dẻ gai (Fagus spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079290": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ dẻ gai (Fagus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079310": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ thích (Acer spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079390": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ thích (Acer spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079410": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ anh đào (Prunus spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079490": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ anh đào (Prunus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079510": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ tần bì (Fraxinus spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079590": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ tần bì (Fraxinus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079610": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ bạch dương (Betula spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079690": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ bạch dương (Betula spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079710": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ dương (Populus spp.) - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079790": { desc: "Gỗ đã cưa/xẻ dọc... - Gỗ dương (Populus spp.) - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079910": { desc: "Gỗ đã cưa/xẻ dọc... - Loại khác - Đã bào, chà nhám hoặc nối đầu", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] },
+            "44079990": { desc: "Gỗ đã cưa/xẻ dọc... - Loại khác", unit: "m3", mfn: 0, normal: 5, vat: 8, vatOptions: [8, 10] }
+        };
+
+        const DEFAULT_VAT_OPTIONS = [8, 10];
+        const getVatOptions = (ref) => (ref && ref.vatOptions) ? ref.vatOptions : DEFAULT_VAT_OPTIONS;
+        const vatLabel = (v) => v === 8 ? 'Giảm tạm thời (NQ 43/2022)' : 'Tiêu chuẩn';
+
+        // ===== PATTERN ĐỐI CHIẾU NGỮ NGHĨA (Tầng 2) =====
+        const HEADING_PATTERNS = {
+            '4401': { pattern: /gỗ nhiên liệu|viên gỗ|briquette|mùn cưa|vỏ bào|dăm gỗ|phế liệu|mảnh vụn|pellet|nén/i, label: 'gỗ nhiên liệu / dăm gỗ / mùn cưa / viên nén' },
+            '4402': { pattern: /than củi|than tre|than gáo|than gỗ|charcoal/i, label: 'than củi' },
+            '4403': { pattern: /gỗ tròn|khúc gỗ|cột sào|gỗ lạng|dác gỗ|gỗ cây|gỗ thô|đẽo vuông|log/i, label: 'gỗ tròn / gỗ thô' },
+            '4404': { pattern: /gỗ đai thùng|cọc chẻ|nan gỗ|chipwood/i, label: 'gỗ đai thùng / nan gỗ' },
+            '4405': { pattern: /sợi gỗ|bột gỗ|wood flour/i, label: 'sợi gỗ / bột gỗ' },
+            '4406': { pattern: /tà vẹt/i, label: 'tà vẹt đường sắt' },
+            '4407': { pattern: /gỗ.*(xẻ|cưa|bào)|đã xẻ|đã bào|chà nhám|nối đầu|gỗ xẻ/i, label: 'gỗ xẻ / gỗ cưa' }
+        };
+
+        const SPECIES_PATTERNS = {
+            '44031110': /lá kim|pine|fir|thông|linh sam|vân sam/i,
+            '44031190': /lá kim|pine|fir|thông|linh sam|vân sam/i,
+            '44032110': /thông|pinus/i, '44032190': /thông|pinus/i,
+            '44032210': /thông|pinus/i, '44032290': /thông|pinus/i,
+            '44032310': /linh sam|vân sam|abies|picea/i, '44032390': /linh sam|vân sam|abies|picea/i,
+            '44032410': /linh sam|vân sam|abies|picea/i, '44032490': /linh sam|vân sam|abies|picea/i,
+            '44034110': /meranti/i, '44034190': /meranti/i,
+            '44034210': /tếch|teak/i, '44034290': /tếch|teak/i,
+            '44039110': /sồi|quercus/i, '44039190': /sồi|quercus/i,
+            '44039310': /dẻ gai|fagus/i, '44039390': /dẻ gai|fagus/i,
+            '44039410': /dẻ gai|fagus/i, '44039490': /dẻ gai|fagus/i,
+            '44039510': /bạch dương|betula|birch/i, '44039590': /bạch dương|betula|birch/i,
+            '44039610': /bạch dương|betula|birch/i, '44039690': /bạch dương|betula|birch/i,
+            '44039710': /dương|populus|poplar|aspen/i, '44039790': /dương|populus|poplar|aspen/i,
+            '44039810': /bạch đàn|eucalyptus/i, '44039890': /bạch đàn|eucalyptus/i,
+            '44071110': /thông|pinus/i, '44071190': /thông|pinus/i,
+            '44071200': /linh sam|vân sam|abies|picea/i,
+            '44071300': /spf|vân sam|thông|linh sam/i,
+            '44071400': /hemlock|độc cần/i,
+            '44072110': /mahogany|swietenia/i, '44072190': /mahogany|swietenia/i,
+            '44072210': /virola|imbuia|balsa/i, '44072290': /virola|imbuia|balsa/i,
+            '44072310': /tếch|teak/i, '44072320': /tếch|teak/i, '44072390': /tếch|teak/i,
+            '44072512': /meranti/i, '44072513': /meranti/i, '44072519': /meranti/i,
+            '44072521': /meranti/i, '44072529': /meranti/i,
+            '44072620': /lauan|meranti|seraya|alan/i,
+            '44072630': /lauan|meranti|seraya|alan/i,
+            '44072690': /lauan|meranti|seraya|alan/i,
+            '44072720': /sapelli/i, '44072730': /sapelli/i, '44072790': /sapelli/i,
+            '44072810': /iroko/i, '44072890': /iroko/i,
+            '44072912': /jelutong/i, '44072913': /jelutong/i, '44072919': /jelutong/i,
+            '44072922': /kapur/i, '44072923': /kapur/i, '44072929': /kapur/i,
+            '44072932': /kempas/i, '44072933': /kempas/i, '44072939': /kempas/i,
+            '44072942': /keruing/i, '44072943': /keruing/i, '44072949': /keruing/i,
+            '44072951': /ramin/i, '44072959': /ramin/i,
+            '44072972': /balau|shorea/i, '44072973': /balau|shorea/i, '44072979': /balau|shorea/i,
+            '44072982': /mengkulang|heritiera/i, '44072983': /mengkulang|heritiera/i, '44072989': /mengkulang|heritiera/i,
+            '44072991': /jongkong|merbau|dactylocladus|intsia/i,
+            '44072992': /jongkong|merbau|dactylocladus|intsia/i,
+            '44072994': /albizia|falcataria/i, '44072995': /albizia|falcataria/i,
+            '44072996': /cao su|hevea|rubber/i, '44072997': /cao su|hevea|rubber/i,
+            '44079120': /sồi|quercus/i, '44079130': /sồi|quercus/i, '44079190': /sồi|quercus/i,
+            '44079210': /dẻ gai|fagus/i, '44079290': /dẻ gai|fagus/i,
+            '44079310': /thích|acer|maple/i, '44079390': /thích|acer|maple/i,
+            '44079410': /anh đào|prunus|cherry/i, '44079490': /anh đào|prunus|cherry/i,
+            '44079510': /tần bì|fraxinus|ash/i, '44079590': /tần bì|fraxinus|ash/i,
+            '44079610': /bạch dương|betula|birch/i, '44079690': /bạch dương|betula|birch/i,
+            '44079710': /dương|populus|poplar|aspen/i, '44079790': /dương|populus|poplar|aspen/i
+        };
+
+        const DEFAULT_TAX_OPTIONS = [0, 3, 5, 8, 10, 15, 20];
+        const INITIAL_KEYWORDS = ["đa năng", "tổng hợp", "hỗn hợp", "kết hợp", "tích hợp", "chế phẩm", "linh kiện", "bộ", "hệ thống", "tháo rời", "phụ tùng", "pha trộn", "đa loại"];
+
+        const EMPTY_FORM = {
+            decNo: '', sku: '', itemName: '', hsDeclared: '',
+            importTax: '', vatRate: 10, unitPrice: '', qty: '',
+            overrideApproved: false, overrideReason: '', girRule: ''
+        };
+
+        const normalizeHS = (code) => (code || '').toString().replace(/[.\s]/g, '').trim();
+        const formatHS = (code8) => code8.replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3");
+        const normalizeVN = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+
+        function App() {
+            const [userRole, setUserRole] = React.useState('STAFF');
+            const [activeTab, setActiveTab] = React.useState('create');
+            const [sensitiveKeywords, setSensitiveKeywords] = React.useState(INITIAL_KEYWORDS);
+            const [newKeywordInput, setNewKeywordInput] = React.useState('');
+            const [formData, setFormData] = React.useState({ ...EMPTY_FORM });
+            const [nameConfirmed, setNameConfirmed] = React.useState(false);
+            const [declarations, setDeclarations] = React.useState([]);
+            const [overrideModalOpen, setOverrideModalOpen] = React.useState(false);
+            const [transmitModalOpen, setTransmitModalOpen] = React.useState(false);
+            const [toast, setToast] = React.useState(null);
+            const toastTimerRef = React.useRef(null);
+
+            const showToast = (message, type = 'info') => {
+                setToast({ message, type });
+                if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+                toastTimerRef.current = setTimeout(() => setToast(null), 3500);
+            };
+
+            // ===== TRA CỨU MÃ HS TRONG BT2026 =====
+            const hsLookup = React.useMemo(() => {
+                const key = normalizeHS(formData.hsDeclared);
+                if (!key) return { status: 'EMPTY', ref: null, key };
+                const ref = BT2026_REFERENCE[key];
+                return ref ? { status: 'FOUND', ref, key } : { status: 'NOT_FOUND', ref: null, key };
+            }, [formData.hsDeclared]);
+
+            // ===== VAT OPTIONS ĐỘNG THEO MÃ HS =====
+            const currentVatOptions = React.useMemo(() => {
+                return hsLookup.status === 'FOUND' ? getVatOptions(hsLookup.ref) : DEFAULT_VAT_OPTIONS;
+            }, [hsLookup]);
+
+            // ===== ĐỐI CHIẾU NGỮ NGHĨA: TÊN HÀNG ↔ MÃ HS =====
+            const nameHsSemantic = React.useMemo(() => {
+                if (!formData.itemName || hsLookup.status !== 'FOUND') {
+                    return { status: 'SKIP', details: [] };
+                }
+                const name = normalizeVN(formData.itemName);
+                const code8 = hsLookup.key;
+                const heading4 = code8.substring(0, 4);
+                const heading = HEADING_PATTERNS[heading4];
+                const species = SPECIES_PATTERNS[code8];
+                const headingMatched = heading ? heading.pattern.test(name) : true;
+                const speciesMatched = species ? species.test(name) : true;
+
+                const details = [];
+                if (heading && !headingMatched) {
+                    details.push(`Tên hàng không đề cập loại sản phẩm của nhóm ${heading4} — cần có: "${heading.label}".`);
+                }
+                if (species && !speciesMatched) {
+                    details.push(`Mã HS ${code8} yêu cầu loài cây cụ thể nhưng tên hàng không đề cập loài tương ứng.`);
+                }
+                if (headingMatched && speciesMatched) {
+                    details.push(`Tên hàng khớp mô tả loại sản phẩm ${heading ? `nhóm ${heading4}` : ''}${species ? ` và loài cây` : ''}.`);
+                }
+                return {
+                    status: headingMatched && speciesMatched ? 'MATCH' : 'MISMATCH',
+                    details
+                };
+            }, [formData.itemName, hsLookup]);
+
+            // ===== TÍNH TOÁN THUẾ =====
+            const cifValue = (parseFloat(formData.unitPrice) || 0) * (parseFloat(formData.qty) || 0);
+            const importTaxRate = parseFloat(formData.importTax) || 0;
+            const vatRate = parseFloat(formData.vatRate) || 0;
+            const importDutyAmount = cifValue * (importTaxRate / 100);
+            const vatBase = cifValue + importDutyAmount;
+            const vatAmount = vatBase * (vatRate / 100);
+            const totalTaxAmount = importDutyAmount + vatAmount;
+
+            const currentTaxOptions = React.useMemo(() => {
+                if (hsLookup.status !== 'FOUND') return DEFAULT_TAX_OPTIONS;
+                const { mfn, normal } = hsLookup.ref;
+                const opts = [...new Set([0, mfn, normal])].sort((a, b) => a - b);
+                const cur = parseFloat(formData.importTax);
+                if (!isNaN(cur) && !opts.includes(cur)) opts.push(cur);
+                return opts.sort((a, b) => a - b);
+            }, [hsLookup, formData.importTax]);
+
+            const hsInputClass = (() => {
+                const base = "w-full pl-9 pr-9 py-2 text-sm font-mono rounded-lg focus:outline-none focus:ring-2 transition-all font-semibold ";
+                if (!nameConfirmed) return base + "border border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed";
+                if (hsLookup.status === 'FOUND') return base + "border border-emerald-400 bg-emerald-50 text-emerald-800 focus:ring-emerald-500";
+                if (hsLookup.status === 'NOT_FOUND') return base + "border border-rose-400 bg-rose-50 text-rose-800 focus:ring-rose-500";
+                return base + "border border-slate-300 text-blue-700 focus:ring-blue-500";
+            })();
+
+            const handleHsChange = (newHS) => {
+                if (!nameConfirmed) {
+                    showToast("Vui lòng xác nhận tên hàng trước khi nhập mã HS", "error");
+                    return;
+                }
+                const key = normalizeHS(newHS);
+                const ref = BT2026_REFERENCE[key];
+                if (ref) {
+                    const opts = getVatOptions(ref);
+                    const currentVat = parseFloat(formData.vatRate);
+                    const newVat = opts.includes(currentVat) ? currentVat : ref.vat;
+                    setFormData(prev => ({
+                        ...prev,
+                        hsDeclared: newHS,
+                        importTax: ref.mfn,
+                        vatRate: String(newVat),
+                        overrideApproved: false
+                    }));
+                } else {
+                    setFormData(prev => ({
+                        ...prev,
+                        hsDeclared: newHS,
+                        importTax: '',
+                        vatRate: '8',
+                        overrideApproved: false
+                    }));
+                }
+            };
+
+            const handleItemNameChange = (newName) => {
+                const wasConfirmed = nameConfirmed;
+                setFormData(prev => ({
+                    ...prev,
+                    itemName: newName,
+                    hsDeclared: '',
+                    importTax: '',
+                    vatRate: 8,
+                    overrideApproved: false
+                }));
+                if (wasConfirmed) {
+                    setNameConfirmed(false);
+                    showToast("Tên hàng đã thay đổi — mã HS đã được xoá, vui lòng xác nhận lại", "info");
+                }
+            };
+
+            const handleConfirmName = () => {
+                if (!formData.itemName || !formData.itemName.trim()) {
+                    showToast("Vui lòng nhập tên hàng hóa trước khi xác nhận", "error");
+                    return;
+                }
+                setNameConfirmed(true);
+                showToast("Đã xác nhận tên hàng — mời nhập mã HS", "success");
+            };
+
+            const handleUnlockName = () => {
+                setNameConfirmed(false);
+                setFormData(prev => ({ ...prev, hsDeclared: '', importTax: '', vatRate: 8, overrideApproved: false }));
+                showToast("Đã mở khóa tên hàng — sửa xong nhớ xác nhận lại", "info");
+            };
+
+            // ===== 5 TẦNG KIỂM TRA =====
+            const inspectRules = React.useCallback(() => {
+                let isBlocked = false;
+
+                // TẦNG 0
+                const layer0 = { name: "Tầng 0: Xác Nhận Tên Hàng Trước Khi Tra Cứu", status: "PASS", details: [] };
+                if (nameConfirmed) {
+                    layer0.details.push("✓ Tên hàng đã được người dùng xác nhận — cho phép tra cứu mã HS.");
+                } else {
+                    layer0.status = "FAIL";
+                    layer0.details.push("Chưa xác nhận tên hàng. Vui lòng nhấn nút 'Xác nhận & Tra mã HS' trước khi nhập mã HS.");
+                    layer0.details.push("Nếu sửa lại tên hàng, mã HS cũ sẽ bị xoá và phải xác nhận lại.");
+                    isBlocked = true;
+                }
+
+                // TẦNG 1
+                const layer1 = { name: "Tầng 1: Tra Cứu Mã HS Trong BT2026", status: "PASS", details: [] };
+                if (hsLookup.status === 'EMPTY') {
+                    layer1.status = "FAIL";
+                    layer1.details.push("Chưa nhập mã HS (8 số). Bắt buộc khai báo mã HS để tra cứu biểu thuế BT2026.");
+                    isBlocked = true;
+                } else if (hsLookup.status === 'NOT_FOUND') {
+                    layer1.status = "FAIL";
+                    layer1.details.push(`Mã HS [${formData.hsDeclared}] không có trong bảng tham chiếu BT2026 (nhóm 4401-4407).`);
+                    isBlocked = true;
+                } else {
+                    layer1.details.push(`✓ Tra cứu thành công mã HS trong BT2026.`);
+                    layer1.details.push(`VAT cho phép: ${currentVatOptions.map(v => v + '%').join(' / ')}.`);
+                }
+
+                // TẦNG 2
+                const layer2 = { name: "Tầng 2: Đối Chiếu Tên Hàng ↔ Mô Tả Mã HS", status: "PASS", details: [] };
+                if (nameHsSemantic.status === 'SKIP') {
+                    layer2.status = "WARN";
+                    layer2.details.push("Chưa đủ dữ liệu để đối chiếu (cần cả tên hàng và mã HS hợp lệ).");
+                } else if (nameHsSemantic.status === 'MISMATCH') {
+                    layer2.status = "FAIL";
+                    layer2.details.push("⚠️ Tên hàng hóa KHÔNG khớp với mô tả của mã HS đã chọn — chặn truyền tờ khai.");
+                    nameHsSemantic.details.forEach(d => layer2.details.push(d));
+                    isBlocked = true;
+                } else {
+                    nameHsSemantic.details.forEach(d => layer2.details.push(d));
+                }
+
+                // TẦNG 3
+                const layer3 = { name: "Tầng 3: Kiểm Tra Thuế NK & Thuế GTGT (BT2026)", status: "PASS", details: [] };
+                const taxVal = parseFloat(formData.importTax);
+                const vatVal = parseFloat(formData.vatRate);
+
+                if (hsLookup.status !== 'FOUND') {
+                    layer3.status = "FAIL";
+                    layer3.details.push("Chưa xác thực mã HS → không thể đối chiếu thuế suất theo BT2026.");
+                    isBlocked = true;
+                } else if (isNaN(taxVal)) {
+                    layer3.status = "FAIL";
+                    layer3.details.push("Chưa chọn Thuế suất Nhập khẩu. Bắt buộc chọn mức thuế theo BT2026.");
+                    isBlocked = true;
+                } else if (taxVal === 0) {
+                    layer3.status = "FAIL";
+                    layer3.details.push("Thuế NK 0%: Thuộc danh mục quản lý rủi ro chênh lệch thuế suất (FTA/ATIGA/ACFTA). Yêu cầu văn bản giải trình xuất xứ.");
+                    isBlocked = true;
+                } else {
+                    layer3.details.push(`Thuế NK ${taxVal}% (BT2026 options: ${currentTaxOptions.map(r => r + '%').join(' / ')}). Tiền thuế = ${importDutyAmount.toLocaleString(undefined, {maximumFractionDigits: 2})} USD.`);
+                }
+
+                if (isNaN(vatVal) || !currentVatOptions.includes(vatVal)) {
+                    layer3.status = "FAIL";
+                    layer3.details.push(`Thuế suất VAT [${formData.vatRate}] không hợp lệ với mã HS này. Chỉ cho phép: ${currentVatOptions.map(v => v + '%').join(' / ')}.`);
+                    isBlocked = true;
+                } else {
+                    layer3.details.push(`Thuế GTGT (VAT) ${vatVal}% hợp lệ. Tiền VAT = ${vatAmount.toLocaleString(undefined, {maximumFractionDigits: 2})} USD.`);
+                }
+
+                const priceVal = parseFloat(formData.unitPrice);
+                const qtyVal = parseFloat(formData.qty);
+                if (isNaN(priceVal) || priceVal <= 0) {
+                    layer3.status = "FAIL";
+                    layer3.details.push("Đơn giá phải là số dương (> 0). Bắt buộc nhập để tính trị giá CIF.");
+                    isBlocked = true;
+                }
+                if (isNaN(qtyVal) || qtyVal <= 0) {
+                    layer3.status = "FAIL";
+                    layer3.details.push("Số lượng phải là số dương (> 0). Bắt buộc nhập để tính trị giá CIF.");
+                    isBlocked = true;
+                }
+
+                // TẦNG 4
+                const layer4 = { name: "Tầng 4: Từ Khóa Nhạy Cảm & Mô Tả 4 Thành Phần", status: "PASS", details: [] };
+                const nameLower = normalizeVN(formData.itemName);
+                const matchedKw = sensitiveKeywords.filter(kw => nameLower.includes(normalizeVN(kw)));
+
+                if (matchedKw.length > 0) {
+                    layer4.status = "FAIL";
+                    layer4.details.push(`Phát hiện từ khóa nhạy cảm/mơ hồ: [${matchedKw.join(', ')}].`);
+                    isBlocked = true;
+                } else {
+                    layer4.details.push("Không chứa từ khóa mơ hồ thuộc danh mục cảnh báo.");
+                }
+
+                const hasModel = /model|mã|type|code|kích thước|dày\s*\d|\d+\s*mm|\d+\s*cm|khổ\s*\d/i.test(formData.itemName);
+                const hasMaterial = /gỗ|tre|nứa|thông|sồi|tếch|bạch đàn|cao su|dừa|tràm|keo|mùn cưa|dăm|gáo|vỏ|Pinus|Quercus|Tectona|Acacia|Hevea|Betula|Populus|Abies|Picea|Fagus/i.test(formData.itemName);
+                const hasFunction = /nhiên liệu|đốt|nén|ép|xẻ|cưa|bào|chà nhám|nghiền|sản xuất|chế biến|đóng gói|viên|khối|dùng|làm|ván|nội thất|đóng tàu/i.test(formData.itemName);
+
+                const missingComponents = [];
+                if (!hasMaterial) missingComponents.push("Chất liệu/Loài gỗ");
+                if (!hasFunction) missingComponents.push("Công dụng/Chức năng");
+                if (!hasModel) missingComponents.push("Model/Thông số kỹ thuật");
+
+                if (missingComponents.length > 0) {
+                    if (missingComponents.length >= 2) { layer4.status = "FAIL"; isBlocked = true; }
+                    else { layer4.status = layer4.status === "FAIL" ? "FAIL" : "WARN"; }
+                    layer4.details.push(`Mô tả chưa đủ 4 thành phần SOP. Thiếu: [${missingComponents.join(', ')}].`);
+                } else {
+                    layer4.details.push("Mô tả đạt chuẩn 4 thành phần SOP.");
+                }
+
+                return { isBlocked, layers: [layer0, layer1, layer2, layer3, layer4] };
+            }, [formData, hsLookup, nameHsSemantic, sensitiveKeywords, importDutyAmount, vatAmount, currentTaxOptions, currentVatOptions, nameConfirmed]);
+
+            const currentInspection = inspectRules();
+            const isOverrideApproved = formData.overrideApproved === true;
+
+            const hasRequiredFields =
+                formData.decNo.trim() &&
+                formData.sku.trim() &&
+                formData.itemName.trim() &&
+                formData.hsDeclared.trim() &&
+                formData.importTax !== '' &&
+                formData.vatRate !== '' &&
+                formData.unitPrice !== '' &&
+                formData.qty !== '';
+
+            const canTransmit = hasRequiredFields && (isOverrideApproved || !currentInspection.isBlocked);
+
+            const finalStatus = isOverrideApproved ? "APPROVED_OVERRIDE" : (currentInspection.isBlocked ? "BLOCKED" : "PASSED");
+
+            const handleRequestOverride = (overrideForm) => {
+                setFormData(prev => ({ ...prev, overrideApproved: true, overrideReason: overrideForm.reason, girRule: overrideForm.girRule }));
+                setOverrideModalOpen(false);
+                showToast("Đã phê duyệt mở khóa ngoại lệ thành công!", "success");
+            };
+
+            const confirmTransmit = () => {
+                setTransmitModalOpen(false);
+                const newDec = {
+                    id: `DEC-${Math.floor(1000 + Math.random() * 9000)}`,
+                    decNo: formData.decNo, sku: formData.sku, itemName: formData.itemName,
+                    hsDeclared: formData.hsDeclared, status: finalStatus,
+                    createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
+                    approvedBy: isOverrideApproved ? "Manager Approved" : "System Auto Passed"
+                };
+                setDeclarations(prev => [newDec, ...prev]);
+                showToast(`Tờ khai ${formData.decNo} đã được truyền thành công tới VNACCS!`, "success");
+            };
+
+            const handleResetForm = () => {
+                setFormData({ ...EMPTY_FORM });
+                setNameConfirmed(false);
+                showToast("Đã xoá toàn bộ form để tạo tờ khai mới", "info");
+            };
+
+            const isTaxEnabled = hsLookup.status === 'FOUND' && nameConfirmed;
+            const isFormLocked = !nameConfirmed;
+
+            return (
+                <div className="min-h-screen flex flex-col bg-slate-100">
+                    <header className="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center space-x-3">
+                                    <div className="p-2 bg-blue-600 text-white rounded-lg shadow-lg"><Icons.ShieldCheck /></div>
+                                    <div>
+                                        <h1 className="font-bold text-lg leading-tight tracking-wide text-white">HS COMPLIANCE GATE</h1>
+                                        <p className="text-xs text-blue-300 font-medium">Hệ Thống Khóa Luồng Cảnh Báo Mã HS Tự Động (SOP Logistics)</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center space-x-4">
+                                    <div className="bg-slate-800 border border-slate-700 p-1 rounded-xl flex items-center text-xs">
+                                        <span className="text-slate-400 px-2 font-medium">Vai trò:</span>
+                                        <button onClick={() => { setUserRole('STAFF'); showToast("Chuyển sang vai trò Chuyên viên XNK", "info"); }}
+                                            className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${userRole === 'STAFF' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:text-white'}`}>👨‍💼 Chuyên viên XNK</button>
+                                        <button onClick={() => { setUserRole('MANAGER'); showToast("Chuyển sang vai trò Trưởng phòng Logistics", "info"); }}
+                                            className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${userRole === 'MANAGER' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:text-white'}`}>🛡️ Trưởng Phòng Logistics</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-slate-800/80 backdrop-blur border-t border-slate-700 px-4 sm:px-6 lg:px-8">
+                            <div className="max-w-7xl mx-auto flex space-x-1">
+                                <button onClick={() => setActiveTab('create')}
+                                    className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'create' ? 'border-blue-500 text-blue-400 bg-slate-900/50' : 'border-transparent text-slate-400 hover:text-slate-200'}`}><Icons.FileText /><span>Tạo & Kiểm Tra Tờ Khai</span></button>
+                                <button onClick={() => setActiveTab('list')}
+                                    className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'list' ? 'border-blue-500 text-blue-400 bg-slate-900/50' : 'border-transparent text-slate-400 hover:text-slate-200'}`}><Icons.Layers /><span>Danh Sách Tờ Khai ({declarations.length})</span></button>
+                                <button onClick={() => setActiveTab('config')}
+                                    className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'config' ? 'border-blue-500 text-blue-400 bg-slate-900/50' : 'border-transparent text-slate-400 hover:text-slate-200'}`}><Icons.Settings /><span>Cấu Hình Rule Engine</span></button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {toast && (
+                        <div className="fixed top-20 right-6 z-50">
+                            <div className={`px-4 py-3 rounded-xl shadow-xl text-white font-medium text-sm flex items-center space-x-2 ${toast.type === 'success' ? 'bg-emerald-600' : toast.type === 'error' ? 'bg-rose-600' : 'bg-blue-600'}`}>
+                                <Icons.CheckCircle /><span>{toast.message}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+                        {activeTab === 'create' && (
+                            <div className="space-y-6">
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                                    <div className="lg:col-span-7 space-y-6">
+                                        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+                                            <div className="border-b border-slate-100 pb-4 flex justify-between items-center">
+                                                <div>
+                                                    <h2 className="text-base font-bold text-slate-900">Tờ Khai Hải Quan Nháp (Draft Declaration)</h2>
+                                                    <p className="text-xs text-slate-500">Nhập dữ liệu hàng hóa để kiểm tra luồng cảnh báo tự động</p>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-mono font-semibold">Form VNACCS 2026 · BT2026</span>
+                                                    <button onClick={handleResetForm}
+                                                        className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition flex items-center space-x-1">
+                                                        <Icons.Refresh /><span>Xoá form</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-700 mb-1">Mã Tờ Khai (Tờ khai nháp)</label>
+                                                    <input type="text" value={formData.decNo}
+                                                        onChange={(e) => setFormData({ ...formData, decNo: e.target.value, overrideApproved: false })}
+                                                        placeholder="VD: 105988291020/1"
+                                                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                                                        Mã SKU Nội Bộ <span className="text-rose-500">*</span>
+                                                    </label>
+                                                    <input type="text" value={formData.sku}
+                                                        onChange={(e) => setFormData({ ...formData, sku: e.target.value, overrideApproved: false })}
+                                                        placeholder="Nhập mã SKU tự do (VD: PINE-XE-25MM)"
+                                                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg font-mono font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                                                </div>
+                                            </div>
+
+                                            {/* ===== BƯỚC 1: TÊN HÀNG ===== */}
+                                            <div className={`p-4 rounded-xl border-2 transition-all ${nameConfirmed ? 'bg-emerald-50/40 border-emerald-300' : 'bg-blue-50/40 border-blue-300'}`}>
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <label className="block text-xs font-bold text-slate-700">
+                                                        <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold mr-2 ${nameConfirmed ? 'bg-emerald-600 text-white' : 'bg-blue-600 text-white'}`}>1</span>
+                                                        Tên Hàng Hóa Khai Báo <span className="text-rose-500">*</span>
+                                                    </label>
+                                                    {nameConfirmed ? (
+                                                        <span className="flex items-center space-x-1 text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md">
+                                                            <Icons.CheckCircle /><span>ĐÃ XÁC NHẬN</span>
+                                                        </span>
+                                                    ) : (
+                                                        <span className="flex items-center space-x-1 text-[10px] font-bold text-slate-500 bg-slate-200 px-2 py-1 rounded-md">
+                                                            <Icons.Lock /><span>CHƯA XÁC NHẬN</span>
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <textarea rows="3" value={formData.itemName}
+                                                    onChange={(e) => handleItemNameChange(e.target.value)}
+                                                    placeholder="Tên hàng + Loài gỗ/Chất liệu + Công dụng + Model..."
+                                                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none font-medium bg-white" />
+
+                                                <div className="flex items-center justify-between mt-2 gap-3">
+                                                    <span className="text-[10px] text-slate-500 italic">Yêu cầu chuẩn 4 thành phần SOP (Loài gỗ + Công dụng + Model)</span>
+                                                    {nameConfirmed ? (
+                                                        <button onClick={handleUnlockName}
+                                                            className="px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1 shrink-0">
+                                                            <Icons.Refresh /><span>Mở khóa để sửa</span>
+                                                        </button>
+                                                    ) : (
+                                                        <button onClick={handleConfirmName}
+                                                            disabled={!formData.itemName.trim()}
+                                                            className={`px-4 py-2 text-xs font-bold rounded-lg transition flex items-center space-x-1 shrink-0 shadow ${formData.itemName.trim() ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}>
+                                                            <Icons.Search /><span>Xác nhận & Tra mã HS</span>
+                                                        </button>
+                                                    )}
+                                                </div>
+
+                                                {!nameConfirmed && formData.itemName.trim() && (
+                                                    <div className="mt-3 p-2 bg-amber-50 border border-amber-200 rounded-lg text-[11px] text-amber-800 flex items-start space-x-2">
+                                                        <Icons.AlertTriangle />
+                                                        <span>Tên hàng chưa được xác nhận — toàn bộ ô khai báo bên dưới đang bị khóa. Nhấn <b>"Xác nhận & Tra mã HS"</b> để mở khóa.</span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {/* ===== MÃ HS ===== */}
+                                            <div className={`p-4 rounded-xl border-2 transition-all ${nameConfirmed ? 'bg-slate-50/30 border-slate-200' : 'bg-slate-100 border-slate-200 opacity-75'}`}>
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <label className="block text-xs font-bold text-slate-700">
+                                                        <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold mr-2 ${nameConfirmed ? 'bg-blue-600 text-white' : 'bg-slate-400 text-white'}`}>2</span>
+                                                        Mã HS Khai Báo (8 số) <span className="text-rose-500">*</span>
+                                                    </label>
+                                                    {!nameConfirmed && (
+                                                        <span className="flex items-center space-x-1 text-[10px] font-bold text-slate-500 bg-slate-200 px-2 py-1 rounded-md">
+                                                            <Icons.Lock /><span>KHÓA — CHỜ XÁC NHẬN TÊN</span>
+                                                        </span>
+                                                    )}
+                                                    {nameConfirmed && hsLookup.status === 'FOUND' && (
+                                                        <span className="flex items-center space-x-1 text-[10px] font-bold text-emerald-700"><Icons.CheckCircle /><span>CÓ TRONG BT2026</span></span>
+                                                    )}
+                                                    {nameConfirmed && hsLookup.status === 'NOT_FOUND' && (
+                                                        <span className="flex items-center space-x-1 text-[10px] font-bold text-rose-700"><Icons.XCircle /><span>KHÔNG CÓ TRONG BT2026</span></span>
+                                                    )}
+                                                </div>
+                                                <div className="relative">
+                                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        {!nameConfirmed && <span className="text-slate-400"><Icons.Lock /></span>}
+                                                        {nameConfirmed && hsLookup.status === 'FOUND' && <span className="text-emerald-500"><Icons.CheckCircle /></span>}
+                                                        {nameConfirmed && hsLookup.status === 'NOT_FOUND' && <span className="text-rose-500"><Icons.XCircle /></span>}
+                                                        {nameConfirmed && hsLookup.status === 'EMPTY' && (
+                                                            <span className="text-slate-400"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg></span>
+                                                        )}
+                                                    </div>
+                                                    <input type="text" value={formData.hsDeclared}
+                                                        disabled={!nameConfirmed}
+                                                        onChange={(e) => handleHsChange(e.target.value)}
+                                                        placeholder={nameConfirmed ? "VD: 4401.11.00" : "-"}
+                                                        className={hsInputClass} />
+                                                </div>
+                                                {nameConfirmed && hsLookup.status === 'NOT_FOUND' && (
+                                                    <p className="mt-1 text-[11px] font-semibold text-rose-700">✗ Mã HS không có trong bảng tham chiếu BT2026 (nhóm 4401-4407).</p>
+                                                )}
+                                                {nameConfirmed && hsLookup.status === 'EMPTY' && (
+                                                    <p className="mt-1 text-[11px] text-slate-500">Nhập mã HS (8 số, có thể có dấu chấm).</p>
+                                                )}
+                                                {!nameConfirmed && (
+                                                    <p className="mt-1 text-[11px] text-slate-500">Ô nhập mã HS đang bị khóa cho tới khi tên hàng được xác nhận.</p>
+                                                )}
+                                            </div>
+
+                                            {/* ===== THUẾ SUẤT & TRỊ GIÁ ===== */}
+                                            <div className="grid grid-cols-4 gap-4">
+                                                <div>
+                                                    <div className="flex justify-between items-center mb-1">
+                                                        <label className="block text-xs font-bold text-slate-700">Thuế NK (%) <span className="text-rose-500">*</span></label>
+                                                        {isTaxEnabled && (<span className="text-[9px] font-bold text-emerald-600 uppercase">BT2026</span>)}
+                                                    </div>
+                                                    <select disabled={!isTaxEnabled} value={isTaxEnabled ? formData.importTax : ''}
+                                                        onChange={(e) => setFormData({ ...formData, importTax: e.target.value, overrideApproved: false })}
+                                                        className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:outline-none font-semibold ${isTaxEnabled ? 'border-amber-300 bg-amber-50/40 focus:ring-amber-500 text-amber-700 cursor-pointer' : 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'}`}>
+                                                        <option value="">{isTaxEnabled ? '-- Chọn thuế suất --' : '-'}</option>
+                                                        {isTaxEnabled && currentTaxOptions.map(r => {
+                                                            const isFta = r === 0;
+                                                            const isMfn = hsLookup.ref && r === hsLookup.ref.mfn && r !== 0;
+                                                            const isNormal = hsLookup.ref && r === hsLookup.ref.normal && r !== hsLookup.ref.mfn;
+                                                            let label = '';
+                                                            if (isFta) label = 'FTA ưu đãi đặc biệt';
+                                                            else if (isMfn) label = 'MFN — Ưu đãi';
+                                                            else if (isNormal) label = 'Thông thường (TT)';
+                                                            return <option key={r} value={r}>{r}% {label ? `· ${label}` : ''}</option>;
+                                                        })}
+                                                    </select>
+                                                    {isTaxEnabled && (
+                                                        <p className="mt-1 text-[10px] text-slate-500">
+                                                            BT2026: MFN <b className="text-amber-700">{hsLookup.ref.mfn}%</b>
+                                                            {hsLookup.ref.normal ? <> · TT <span className="font-mono text-slate-600">{hsLookup.ref.normal}%</span></> : null}
+                                                        </p>
+                                                    )}
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-700 mb-1">Thuế GTGT - VAT (%)</label>
+                                                    <select
+                                                        disabled={!nameConfirmed}
+                                                        value={nameConfirmed ? formData.vatRate : ''}
+                                                        onChange={(e) => setFormData({ ...formData, vatRate: e.target.value, overrideApproved: false })}
+                                                        className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none font-semibold ${
+                                                            !nameConfirmed
+                                                                ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'
+                                                                : 'border-indigo-300 bg-indigo-50/40 text-indigo-700 cursor-pointer'
+                                                        }`}
+                                                    >
+                                                        {!nameConfirmed && <option value="">-</option>}
+                                                        {nameConfirmed && currentVatOptions.map(v => (
+                                                            <option key={v} value={v}>{v}% — {vatLabel(v)}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-700 mb-1">Đơn Giá (USD) <span className="text-rose-500">*</span></label>
+                                                    <input type="number" min="0" step="0.01" value={formData.unitPrice}
+                                                        disabled={isFormLocked}
+                                                        onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value, overrideApproved: false })}
+                                                        placeholder={isFormLocked ? '-' : '0.00'}
+                                                        className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:outline-none ${isFormLocked ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed' : 'border-slate-300 focus:ring-blue-500'}`} />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-700 mb-1">Số Lượng <span className="text-rose-500">*</span></label>
+                                                    <input type="number" min="0" step="1" value={formData.qty}
+                                                        disabled={isFormLocked}
+                                                        onChange={(e) => setFormData({ ...formData, qty: e.target.value, overrideApproved: false })}
+                                                        placeholder={isFormLocked ? '-' : '0'}
+                                                        className={`w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:outline-none ${isFormLocked ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed' : 'border-slate-300 focus:ring-blue-500'}`} />
+                                                </div>
+                                            </div>
+
+                                            {/* ===== BẢNG TÍNH THUẾ ===== */}
+                                            <div className={`p-4 rounded-xl border space-y-2 ${isFormLocked ? 'bg-slate-100 border-slate-200 opacity-60' : 'bg-gradient-to-br from-slate-50 to-blue-50/40 border-slate-200'}`}>
+                                                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                                                    <span className="text-xs font-bold text-slate-800 uppercase tracking-wide">🧾 Bảng Tính Thuế Phải Nộp (BT2026)</span>
+                                                    <span className="text-[10px] font-mono text-slate-500">USD</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-semibold text-slate-600">Trị giá tính thuế (CIF = ĐG × SL):</span>
+                                                    <span className="font-bold text-slate-900 font-mono">${cifValue.toLocaleString()}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-semibold text-slate-600">Thuế Nhập Khẩu ({isTaxEnabled ? importTaxRate : '--'}%):</span>
+                                                    <span className="font-bold text-amber-700 font-mono">${importDutyAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-semibold text-slate-600">Giá tính thuế GTGT (CIF + Thuế NK):</span>
+                                                    <span className="font-bold text-slate-700 font-mono">${vatBase.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs">
+                                                    <span className="font-semibold text-slate-600">Thuế GTGT/VAT ({vatRate}%):</span>
+                                                    <span className="font-bold text-indigo-700 font-mono">${vatAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center pt-2 border-t-2 border-slate-300">
+                                                    <span className="text-xs font-bold text-slate-800 uppercase">Tổng Thuế Phải Nộp:</span>
+                                                    <span className="text-base font-bold text-rose-600 font-mono">${totalTaxAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="lg:col-span-5 space-y-6">
+                                        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+                                            <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+                                                <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                                                    <Icons.ShieldCheck /><span>Kết Quả Inspection Real-time</span>
+                                                </h3>
+                                                {finalStatus === 'BLOCKED' && (
+                                                    <span className="px-3 py-1 bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs rounded-full flex items-center space-x-1 animate-pulse">
+                                                        <Icons.Lock /><span>ĐÃ KHÓA (BLOCKED)</span>
+                                                    </span>
+                                                )}
+                                                {finalStatus === 'PASSED' && (
+                                                    <span className="px-3 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold text-xs rounded-full flex items-center space-x-1">
+                                                        <Icons.CheckCircle /><span>ĐẠT CHUẨN (PASSED)</span>
+                                                    </span>
+                                                )}
+                                                {finalStatus === 'APPROVED_OVERRIDE' && (
+                                                    <span className="px-3 py-1 bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold text-xs rounded-full flex items-center space-x-1">
+                                                        <Icons.Unlock /><span>ĐÃ DUYỆT NGOẠI LỆ</span>
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="space-y-3">
+                                                {currentInspection.layers.map((layer, idx) => (
+                                                    <div key={idx} className={`p-3.5 rounded-xl border text-xs space-y-1 transition-all ${
+                                                        layer.status === 'FAIL' ? 'bg-rose-50/60 border-rose-200 text-rose-900'
+                                                        : layer.status === 'WARN' ? 'bg-amber-50/60 border-amber-200 text-amber-900'
+                                                        : 'bg-emerald-50/60 border-emerald-200 text-emerald-900'}`}>
+                                                        <div className="flex items-center justify-between font-bold">
+                                                            <span>{layer.name}</span>
+                                                            <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-mono ${
+                                                                layer.status === 'FAIL' ? 'bg-rose-200 text-rose-800'
+                                                                : layer.status === 'WARN' ? 'bg-amber-200 text-amber-800'
+                                                                : 'bg-emerald-200 text-emerald-800'}`}>{layer.status}</span>
+                                                        </div>
+                                                        <ul className="list-disc pl-4 space-y-1 text-[11px] opacity-90">
+                                                            {layer.details.map((dt, dIdx) => (<li key={dIdx}>{dt}</li>))}
+                                                        </ul>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="pt-2 border-t border-slate-100 space-y-3">
+                                                <button onClick={() => setTransmitModalOpen(true)} disabled={!canTransmit}
+                                                    className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 transition shadow-lg ${
+                                                        !canTransmit ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none border border-slate-300'
+                                                        : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-200'}`}>
+                                                    {!canTransmit ? <Icons.Lock /> : <Icons.Send />}
+                                                    <span>Truyền Tờ Khai Hải Quan (VNACCS)</span>
+                                                </button>
+
+                                                {!canTransmit && (
+                                                    <p className="text-[11px] text-rose-600 font-medium text-center">
+                                                        ⚠️ Nút truyền bị KHÓA. Vui lòng nhập đủ các trường bắt buộc và xử lý hết cảnh báo vi phạm.
+                                                    </p>
+                                                )}
+
+                                                {canTransmit && finalStatus === 'BLOCKED' && (
+                                                    <p className="text-[11px] text-indigo-600 font-medium text-center">✓ Đã có phê duyệt ngoại lệ — cho phép truyền.</p>
+                                                )}
+
+                                                {finalStatus === 'BLOCKED' && !isOverrideApproved && (
+                                                    <div className="pt-2 flex flex-col gap-2">
+                                                        <button onClick={() => setOverrideModalOpen(true)}
+                                                            className="w-full py-2.5 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl font-semibold text-xs transition flex items-center justify-center space-x-1">
+                                                            <Icons.FileText /><span>Tạo Phiếu Yêu Cầu Mở Khóa Ngoại Lệ (Escalation)</span>
+                                                        </button>
+                                                        {userRole === 'MANAGER' && (
+                                                            <button onClick={() => setOverrideModalOpen(true)}
+                                                                className="w-full py-2.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-xs transition flex items-center justify-center space-x-1 shadow">
+                                                                <Icons.Unlock /><span>Trưởng Phòng: Phê Duyệt Mở Khóa Trực Tiếp</span>
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                {finalStatus === 'APPROVED_OVERRIDE' && (
+                                                    <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 space-y-1">
+                                                        <p className="font-bold flex items-center space-x-1"><Icons.Unlock /><span>Đã phê duyệt mở khóa bởi Trưởng Phòng</span></p>
+                                                        <p className="text-[11px] text-indigo-700">Lý do: {formData.overrideReason || "Đã thẩm định hồ sơ kỹ thuật"}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'list' && (
+                            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h2 className="text-base font-bold text-slate-900">Danh Sách Tờ Khai Đã Xử Lý</h2>
+                                        <p className="text-xs text-slate-500">Lịch sử toàn bộ tờ khai đã kiểm tra và truyền hải quan</p>
+                                    </div>
+                                    <button onClick={() => setActiveTab('create')}
+                                        className="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition flex items-center space-x-1">
+                                        <Icons.Plus /><span>Tạo Tờ Khai Mới</span>
+                                    </button>
+                                </div>
+                                <div className="overflow-x-auto">
+                                    {declarations.length === 0 ? (
+                                        <div className="p-8 text-center text-slate-400 text-xs italic border border-dashed border-slate-200 rounded-lg">
+                                            Chưa có tờ khai nào. Hãy tạo tờ khai mới ở tab "Tạo & Kiểm Tra Tờ Khai".
+                                        </div>
+                                    ) : (
+                                        <table className="w-full text-left text-xs text-slate-600 border-collapse">
+                                            <thead>
+                                                <tr className="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider">
+                                                    <th className="p-3">Mã Tờ Khai</th><th className="p-3">SKU</th><th className="p-3">Tên Hàng Hóa</th>
+                                                    <th className="p-3">Mã HS Khai Báo</th><th className="p-3">Trạng Thái</th><th className="p-3">Thời Gian</th><th className="p-3">Người Duyệt</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {declarations.map((dec) => (
+                                                    <tr key={dec.id} className="hover:bg-slate-50 transition">
+                                                        <td className="p-3 font-mono font-bold text-slate-900">{dec.decNo}</td>
+                                                        <td className="p-3 font-medium text-slate-700">{dec.sku}</td>
+                                                        <td className="p-3 max-w-xs truncate font-medium text-slate-800">{dec.itemName}</td>
+                                                        <td className="p-3 font-mono text-blue-700 font-semibold">{dec.hsDeclared}</td>
+                                                        <td className="p-3">
+                                                            {dec.status === 'PASSED' && (<span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">PASSED</span>)}
+                                                            {dec.status === 'APPROVED_OVERRIDE' && (<span className="px-2.5 py-1 bg-indigo-100 text-indigo-800 rounded-full font-bold text-[10px]">APPROVED OVERRIDE</span>)}
+                                                            {dec.status === 'BLOCKED' && (<span className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-full font-bold text-[10px]">BLOCKED</span>)}
+                                                        </td>
+                                                        <td className="p-3 text-slate-400 font-mono text-[11px]">{dec.createdAt}</td>
+                                                        <td className="p-3 text-slate-600 font-medium">{dec.approvedBy}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'config' && (
+                            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+                                <div>
+                                    <h2 className="text-base font-bold text-slate-900">Quản Lý Bộ Quy Tắc Engine (Rule Configuration)</h2>
+                                    <p className="text-xs text-slate-500">Tùy chỉnh Danh mục từ khóa nhạy cảm và Ngưỡng cảnh báo rủi ro thuế</p>
+                                </div>
+
+                                <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-800 space-y-1">
+                                    <p className="font-bold">📋 5 tầng kiểm tra tự động:</p>
+                                    <ol className="list-decimal pl-5 space-y-0.5">
+                                        <li><b>Tầng 0</b> — Đã xác nhận tên hàng? (chưa → KHÓA, chặn nhập mã HS)</li>
+                                        <li><b>Tầng 1</b> — Mã HS có tồn tại trong BT2026? (không → KHÓA)</li>
+                                        <li><b>Tầng 2</b> — Tên hàng có khớp mô tả mã HS? (không → KHÓA — chặn truyền)</li>
+                                        <li><b>Tầng 3</b> — Thuế NK & VAT hợp lệ với mã HS? + Đơn giá/SL &gt; 0 (vi phạm → KHÓA)</li>
+                                        <li><b>Tầng 4</b> — Từ khóa mơ hồ & mô tả 4 thành phần SOP? (vi phạm ≥2 → KHÓA)</li>
+                                    </ol>
+                                    <p className="mt-1 pt-1 border-t border-blue-200 text-blue-700">
+                                        <b>Điều kiện bật nút Truyền:</b> phải nhập đủ <b>Mã tờ khai, SKU, Tên hàng, Mã HS, Thuế NK, VAT, Đơn giá, Số lượng</b> và <b>không vi phạm bất kỳ tầng nào</b> (hoặc đã được duyệt ngoại lệ).
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <label className="block text-xs font-bold text-slate-800">Danh Mục Từ Khóa Nhạy Cảm / Mơ Hồ (Sensitive Keywords Filter)</label>
+                                    <div className="flex space-x-2">
+                                        <input type="text" value={newKeywordInput}
+                                            onChange={(e) => setNewKeywordInput(e.target.value)}
+                                            placeholder="Thêm từ khóa mới (ví dụ: pha trộn, đa loại, bán thành phẩm)..."
+                                            className="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                                        <button onClick={() => {
+                                            if (newKeywordInput.trim()) {
+                                                setSensitiveKeywords([...sensitiveKeywords, newKeywordInput.trim()]);
+                                                setNewKeywordInput('');
+                                                showToast("Đã thêm từ khóa nhạy cảm mới!", "success");
+                                            }
+                                        }} className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold text-xs hover:bg-blue-700 transition flex items-center space-x-1">
+                                            <Icons.Plus /><span>Thêm Từ Khóa</span>
+                                        </button>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        {sensitiveKeywords.map((kw, idx) => (
+                                            <span key={idx} className="px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-700 font-medium text-xs rounded-xl flex items-center space-x-2">
+                                                <span>"{kw}"</span>
+                                                <button onClick={() => {
+                                                    setSensitiveKeywords(sensitiveKeywords.filter((_, i) => i !== idx));
+                                                    showToast("Đã xóa từ khóa khỏi bộ lọc", "info");
+                                                }} className="hover:text-rose-900 font-bold">×</button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="border-t border-slate-100 pb-2"></div>
+
+                                <div className="space-y-3">
+                                    <div className="flex justify-between items-center">
+                                        <h3 className="text-xs font-bold text-slate-800">
+                                            Bảng Tham Chiếu BT2026 — Nhóm 4401-4407 (Gỗ & Lâm sản) · {Object.keys(BT2026_REFERENCE).length} mã
+                                        </h3>
+                                        <span className="text-[10px] text-slate-500 italic">Click vào dòng để nạp mã HS vào form</span>
+                                    </div>
+                                    <div className="overflow-x-auto max-h-96 overflow-y-auto border border-slate-200 rounded-lg">
+                                        <table className="w-full text-left text-xs">
+                                            <thead className="bg-slate-100 font-bold text-slate-700 sticky top-0">
+                                                <tr>
+                                                    <th className="p-2.5">Mã HS</th>
+                                                    <th className="p-2.5">Mô tả chuẩn BT2026</th>
+                                                    <th className="p-2.5">ĐVT</th>
+                                                    <th className="p-2.5">NK TT (%)</th>
+                                                    <th className="p-2.5">NK Ưu đãi (%)</th>
+                                                    <th className="p-2.5">VAT (%)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {Object.entries(BT2026_REFERENCE).map(([code, item]) => {
+                                                    const formatted = formatHS(code);
+                                                    const opts = getVatOptions(item);
+                                                    return (
+                                                        <tr key={code} className="hover:bg-slate-50 cursor-pointer"
+                                                            onClick={() => {
+                                                                setActiveTab('create');
+                                                                setNameConfirmed(true);
+                                                                handleHsChange(formatted);
+                                                                showToast(`Đã điền mã HS ${formatted}`, "info");
+                                                            }}>
+                                                            <td className="p-2.5 font-bold font-mono text-blue-700">{formatted}</td>
+                                                            <td className="p-2.5 text-slate-700">{item.desc}</td>
+                                                            <td className="p-2.5 font-mono text-slate-500">{item.unit}</td>
+                                                            <td className="p-2.5 font-mono text-slate-600">{item.normal}%</td>
+                                                            <td className="p-2.5 font-bold text-amber-700">{item.mfn}%</td>
+                                                            <td className="p-2.5 font-bold text-indigo-700">
+                                                                {opts.map(v => v + '%').join(' / ')}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+
+                    {overrideModalOpen && (
+                        <ModalOverrideRequest userRole={userRole} onClose={() => setOverrideModalOpen(false)}
+                            onSubmit={handleRequestOverride} currentFormData={formData} />
+                    )}
+
+                    {transmitModalOpen && (
+                        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                            <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+                                <div className="text-center space-y-2">
+                                    <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto"><Icons.Send /></div>
+                                    <h3 className="text-base font-bold text-slate-900">Xác Nhận Ký Số & Truyền Tờ Khai</h3>
+                                    <p className="text-xs text-slate-500">Tờ khai <span className="font-mono font-bold text-slate-800">{formData.decNo}</span> đã đạt tiêu chuẩn kiểm duyệt HS. Tiến hành kết nối cổng VNACCS/VCIS.</p>
+                                </div>
+                                <div className="p-3 bg-slate-50 rounded-xl text-xs space-y-2 border border-slate-200">
+                                    <div className="flex justify-between"><span className="text-slate-500">Chữ Ký Số Doanh Nghiệp:</span><span className="font-semibold text-slate-800">VNPT-CA USB Token (Valid)</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Mã SKU:</span><span className="font-mono font-bold text-slate-700">{formData.sku}</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Mã HS Khai Báo:</span><span className="font-mono font-bold text-blue-700">{formData.hsDeclared}</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Thuế NK ({importTaxRate}%):</span><span className="font-mono font-bold text-amber-700">${importDutyAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span></div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Thuế GTGT ({vatRate}%):</span><span className="font-mono font-bold text-indigo-700">${vatAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span></div>
+                                    <div className="flex justify-between pt-2 border-t border-slate-200">
+                                        <span className="text-slate-600 font-semibold">Tổng thuế phải nộp:</span>
+                                        <span className="font-mono font-bold text-rose-600">${totalTaxAmount.toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+                                    </div>
+                                    <div className="flex justify-between"><span className="text-slate-500">Trạng Thái Kiểm Duyệt:</span><span className="font-bold text-emerald-600">PASSED COMPLIANCE</span></div>
+                                </div>
+                                <div className="flex space-x-3 pt-2">
+                                    <button onClick={() => setTransmitModalOpen(false)}
+                                        className="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-50 transition">Hủy Bỏ</button>
+                                    <button onClick={confirmTransmit}
+                                        className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-lg shadow-emerald-100 transition">Ký Số & Truyền Ngay</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function ModalOverrideRequest({ userRole, onClose, onSubmit, currentFormData }) {
+            const [girRule, setGirRule] = React.useState('GIR 3(b)');
+            const [reason, setReason] = React.useState('');
+            const [fileName, setFileName] = React.useState('Technical_Data_Sheet.pdf');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (!reason.trim()) {
+                    alert("Vui lòng nhập nội dung giải trình kỹ thuật");
+                    return;
+                }
+                onSubmit({ girRule, reason, fileName });
+            };
+
+            return (
+                <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl">
+                        <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                            <div>
+                                <h3 className="font-bold text-slate-900 text-base">Phiếu Yêu Cầu Phê Duyệt Mở Khóa Ngoại Lệ HS</h3>
+                                <p className="text-xs text-slate-500">Giải trình căn cứ kỹ thuật & 6 Quy tắc GIR Hải quan</p>
+                            </div>
+                            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 font-bold text-lg">×</button>
+                        </div>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-slate-700 mb-1">Căn Cứ Quy Tắc Giải Thích HS (GIR Rules)</label>
+                                <select value={girRule} onChange={(e) => setGirRule(e.target.value)}
+                                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-medium">
+                                    <option value="GIR 1">Quy tắc 1: Căn cứ Chú giải Chương/Phần & Tên Nhóm</option>
+                                    <option value="GIR 2(a)">Quy tắc 2(a): Hàng chưa hoàn chỉnh/tháo rời</option>
+                                    <option value="GIR 3(a)">Quy tắc 3(a): Chọn Nhóm có mô tả cụ thể nhất</option>
+                                    <option value="GIR 3(b)">Quy tắc 3(b): Chọn theo Đặc tính cơ bản cấu thành (Essential Character)</option>
+                                    <option value="GIR 3(c)">Quy tắc 3(c): Chọn Nhóm có thứ tự cuối cùng</option>
+                                    <option value="GIR 6">Quy tắc 6: Phân loại ở cấp Phân nhóm 6-8 chữ số</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-700 mb-1">Nội Dung Giải Trình Kỹ Thuật Chi Tiết <span className="text-rose-500">*</span></label>
+                                <textarea rows="4" value={reason} onChange={(e) => setReason(e.target.value)} required
+                                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-slate-800"
+                                    placeholder="Nêu rõ thành phần %, tài liệu catalog, chức năng chính..." />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-700 mb-1">Đính Kèm Tài Liệu Kỹ Thuật (Catalog / TDS / COA)</label>
+                                <div className="p-3 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-between text-xs bg-slate-50">
+                                    <span className="font-mono text-slate-700 font-medium">📄 {fileName}</span>
+                                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded font-bold text-[10px]">Đã đính kèm</span>
+                                </div>
+                            </div>
+                            <div className="pt-3 border-t border-slate-100 flex space-x-3">
+                                <button type="button" onClick={onClose}
+                                    className="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-50 transition">Hủy Bỏ</button>
+                                <button type="submit"
+                                    className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs shadow-lg shadow-indigo-100 transition">
+                                    {userRole === 'MANAGER' ? 'Phê Duyệt & Mở Khóa Ngay' : 'Gửi Trưởng Phòng Phê Duyệt'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
